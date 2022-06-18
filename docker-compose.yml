@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  nlu:
+    image: ligana/rasa:1
+    volumes:
+      - ./rasa/nlu:/app
+    ports:
+      - "8080:8080" # localhost:8080
+  action-server:
+    image: ligana/rasa:1
+    volumes:
+      - ./rasa-actions/nlu:/app
+    command: run actions --debug
+  ngrok:
+    container_name: "rasa_ngrok"
+    image: wernight/ngrok
+    links:
+      - "nlu"
+    environment:
+      - NGROK_AUTH=2AJGtxMO9kHXyhe6pQGC3cgRHpB_6Z9n23CugoUtN6PqMiSmS
+      - NGROK_REGION=eu
+      - NGROK_PORT=nlu:8080
+      - NGROK_DEBUG=1

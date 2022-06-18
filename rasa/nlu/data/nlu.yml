@@ -1,0 +1,961 @@
+version: "2.0"
+nlu:
+- intent: CHI-greetings
+  examples: |
+    - un saludo
+    - hola hola
+    - hi hi
+    - que tal
+    - hola cómo estás
+    - qué tal estás
+    - me paso a saludar
+    - hola otra vez
+    - hola de nuevo
+    - qué hay
+    - qué pasa
+    - qué tal
+    - hola buenas
+    - buenas cómo estás
+    - buenas
+    - hola muy buenas
+    - hola qué tal
+    - estás ahí
+    - saludo
+    - te estaba saludando
+    - hi
+    - hello
+    - pasaba a saludar
+    - solo pasaba a saludarte
+    - saludos para ti
+    - hola
+    - cómo estás
+    - aló
+    - cómo vas
+    - solo saludo
+    - buenos días
+    - holita
+    - quería saludarte
+    - buenas noches
+    - qué te cuentas
+    - ey
+    - quería saludar
+    - ola
+    - cómo te va
+    - buenas tardes
+    - hey
+    - hey ho
+    - cuánto tiempo sin verte
+    - aloha
+    - he venido a saludar
+    - solo te saludaba
+    - buenas qué tal
+    - saludos
+    - holi
+    - muy buenas
+    - hey bicho
+    - hey amigo
+    - hey tú
+    - hey robot
+    - hola caracola
+    - hola bot
+- intent: CHI-stop
+  examples: |
+    - hasta la próxima vez
+    - no quiero nada más de ti
+    - con nada más
+    - ya no tengo más preguntas
+    - quiero acabar esta conversación
+    - no más chat
+    - ya lo tengo todo
+    - desaparece
+    - salir de aquí
+    - eso es todo por hoy
+    - no quiero escuchar más dudas
+    - déjalo todo
+    - para
+    - bye bye
+    - No tengo más preguntas
+    - no quiero nada más
+    - quiero que te vayas
+    - me voy a ir
+    - ya está todo listo
+    - eso es todo por ahora
+    - no tengo más dudas gracias
+    - cancélalo
+    - basta
+    - anular
+    - cancela
+    - apagar bot
+    - no necesito nada
+    - no quiero que hablemos más
+    - detener
+    - au revoir
+    - no quiero consultar nada más
+    - ya no quiero seguir
+    - no continuar
+    - detente
+    - agur
+    - para con esto
+    - acabar la sesión
+    - nos vemos en otro momento
+    - cállate
+    - terminar con eso de una vez
+    - me voy
+    - quiero que te calles
+    - no quiero preguntar nada más
+    - que tengas un buen día
+    - nos vemos mañana
+    - por favor quédate quieto
+    - salir de aqui
+    - gracias adiós
+    - desconectar
+    - finalizar sesión
+    - anula
+    - nada más adiós
+    - nos vemos más tarde
+    - me voy ya
+    - terminar la conversación
+    - no quiero hablar más
+    - nada más
+    - bye
+    - desactívate
+    - es suficiente
+    - gracias hasta luego
+    - eso es todo, no quiero nada más
+    - quiero parar
+    - adiós y gracias
+    - te tengo que dejar
+    - finaliza
+    - quiero salir
+    - parar
+    - finish
+    - bye y gracias
+    - hasta pronto
+    - muchas gracias eso es todo
+    - acabar
+    - nada más gracias
+    - termina
+    - quiero acabar
+    - me marcho
+    - quiero parar la conversación
+    - ciérrate
+    - eso es todo adiós
+    - terminar
+    - ya está adiós
+    - calla
+    - no quiero nada
+    - eso es todo
+    - salte
+    - no quiero hablar de nada más contigo
+    - ya no tengo más dudas
+    - adiós
+    - ya vale
+    - eso era todo
+    - no necesito más información
+    - me tengo que marchar
+    - no hables
+    - para de una vez
+    - nada más, gracias
+    - nada
+    - vete de aquí
+    - no necesito nada más
+    - eso es todo hasta luego
+    - salir
+    - hasta nunca
+    - hablamos otro día
+    - chao
+    - chaito
+    - terminé
+    - vete
+    - cortar
+    - dejar de contestar
+    - conversación finalizada
+    - hasta otra
+    - ya hablaremos en otro momento
+    - hemos terminado
+    - eso ha sido todo
+- intent: CHI-affirmative
+  examples: |
+    - sí va
+    - me parece genial
+    - estaría bien
+    - ya está
+    - eso creo
+    - vamos con ello
+    - creo que si
+    - me sería muy útil
+    - afirmativo
+    - si venga
+    - bueno vale
+    - sí gracias
+    - siempre
+    - trato hecho
+    - perfecto
+    - oks
+    - sí estoy de acuerdo
+    - pues claro
+    - vale gracias
+    - sí lo quiero
+    - solucionado
+    - sí mejor
+    - efectivamente
+    - vamos
+    - sí claro
+    - si quiero
+    - sí sí
+    - va
+    - continuar
+    - vale sí
+    - sí, por qué no?
+    - okei
+    - sí, me encantaría
+    - yeap
+    - bueno
+    - doy el visto bueno
+    - sip
+    - claro por favor
+    - sí, claro
+    - me interesan
+    - que sí
+    - sí por supuesto
+    - okey
+    - claro que lo estoy
+    - okidoki
+    - muy bien
+    - de acuerdo gracias
+    - sí venga
+    - claro gracias
+    - si insites
+    - genial
+    - conforme
+    - aceptar
+    - arreglado
+    - sí
+    - sí por favor
+    - hecho
+- intent: CHI-negative
+  examples: |
+    - no estoy de acuerdo
+    - de eso nada
+    - estoy en desacuerdo
+    - pasando
+    - no estoy interesado
+    - ni por asomo
+    - aún no
+    - no hacerlo
+    - en este momento no
+    - que no
+    - pues no
+    - gracias pero no
+    - en absoluto
+    - no en otro momento
+    - ni de blas
+    - prefiero no hacerlo
+    - ay no
+    - en otro momento
+    - ni de coña
+    - no me interesaría
+    - que va
+    - no me interesa
+    - ni de broma
+    - ahora no
+    - no no
+    - no lo quiero
+    - no deja
+    - quizá más tarde
+    - no ninguna
+    - ahora mismo no
+    - para nada
+    - mejor que no
+    - quizás luego
+    - ni quiero
+    - no las acepto
+    - no, disculpa
+    - nop
+    - nope
+    - me niego
+    - no no lo quiero
+    - negativo
+    - pues nop
+    - no lo creo
+    - no mucho
+    - no
+    - no la tengo aquí
+    - no sé cuál es
+    - no lo sé
+    - no me sé el nombre
+    - desconozco el nombre
+    - no me acuerdo
+    - no sé decirte
+    - no tengo ni idea
+    - no tengo la menor idea
+    - la desconozco
+    - no puedo decírtelo
+    - no la conozco
+    - no la tengo
+- intent: CHI-thankyou
+  examples: |
+    - estoy agradecida
+    - te estoy agradecida
+    - tus respuestas me han servido de ayuda
+    - gracias de nuevo
+    - te estoy muy agradecido
+    - gracias por tu ayuda
+    - gracias totales
+    - eres muy útil
+    - agradezco mucho tu ayuda
+    - gracias a ti no tengo dudas
+    - jamás podré agradecértelo lo suficiente
+    - miles de gracias
+    - genial muchas gracias
+    - no sé por dónde empezar a agradecértelo
+    - no hay palabras para describir lo agradecido que estoy
+    - la verdad es que me has sido de mucha ayuda
+    - mi más sincera gratitud
+    - mil gracias
+    - muy amable
+    - grazie
+    - agradezco tu ayuda
+    - muchísimas gracias
+    - me has ayudado mucho, de verdad
+    - un millón de gracias
+    - danke
+    - te doy las gracias
+    - thanks
+    - solo siento gratitud hacia ti
+    - aprecio tu ayuda
+    - muchas gracias por tu ayuda
+    - solo quería agradecerte lo que has hecho por mí
+    - muchas gracias
+    - me has ayudado mucho
+    - te estoy agradecida por todo
+    - me salvas
+    - No sé qué hubiera hecho sin ti
+    - Quiero agradecerte la ayuda
+    - Eternamente agradecido
+    - Te quiero dar las gracias
+    - te lo agradezco
+    - gracias por todo
+- intent: CHI-hate
+  examples: |
+    - inutil
+    - me aburres muchísimo
+    - grosera
+    - basura
+    - pedazo mierda
+    - estúpida
+    - eres una cerda
+    - qué estupida
+    - No vales para nada
+    - no estás trabajando bien
+    - no tienes presencia
+    - eres un bot inútil
+    - hablar contigo es terrible
+    - cabronazo
+    - asquerosa
+    - eres odiosa
+    - no sirves para absolutamente nada
+    - amargada
+    - no me escuchas
+    - paso de ti como de la mierda
+    - tonta del culo
+    - me amargas la vida
+    - muérete
+    - qué pesada eres
+    - a tomar vientos
+    - me incordias
+    - que te mueras
+    - no tienes la más mínima idea
+    - escoria
+    - eres muy zorra
+    - no te soporto
+    - antipática
+    - pedazo de gilipollas
+    - pelotudo
+    - hablas fatal
+    - eres una rastrera
+    - por qué eres tan mala
+    - eres una aplicación horrible
+    - creo que deberías saber más cosas
+    - pelotuda
+    - me incomodas
+    - qué horrible asistente
+    - no tienes ni puta idea
+    - tontolava
+    - das asco
+    - eres aburrida
+    - me estás sacando de mis casillas
+    - que te follen
+    - imbécil
+    - eres un timo
+    - eres ordinaria
+    - no quiero saber de ti
+    - me estás exasperando
+    - por qué funcionas tan mal?
+    - tontolaba
+    - funcionas fatal
+    - estúpida de mierda
+    - no tienes suficientes funcionalidades
+    - ceporro
+    - eres tonto
+    - retrasado
+    - eres tonta
+    - pagafantas
+    - eres una caca
+    - me caes fatal
+    - me cago en tu padre
+    - vaya mierda
+    - eres cutre
+    - no te enteras
+    - eres imbécil
+    - no me entiendes
+    - cacho mierda
+    - te falta un herbor
+    - funcionas de pena
+    - mongolo
+    - no te han creado del todo bien
+    - no sirves para nada
+    - bocachapa
+    - no respondes lo que te pregunto
+    - eres un pelmazo
+    - me cago en tu madre
+    - eres mala
+    - no puedes hacer nada bien
+    - eres más tonta que nadie
+    - no puedo contigo
+    - eres inútil
+    - no puedes funcionar peor
+    - malparido
+    - por qué funcionas tan mal
+    - no sabes nada
+    - puta
+    - de qué retraso padeces
+    - guarra
+    - no sabes hacer nada
+    - sabes poco
+    - esto es desesperante
+- intent: CHI-botIdentity
+  examples: |
+    - quién te creó
+    - eres un humano o un robot
+    - cuál es tu origen
+    - dime sobre ti
+    - puedes responderme a mis consultas como un humano
+    - cuál es tu nombre
+    - qué tipo de ser eres
+    - cómo eres
+    - tienes dificultades para entenderme por ser una máquina
+    - tienes un nombre de persona
+    - estoy hablando con una persona o con un asistente
+    - quién me está hablando
+    - qué eres
+    - de dónde vienes
+    - estás vivo
+    - cuéntame cosas sobre ti
+    - eres un bot
+    - eres una persona
+    - cuál es tu aspecto
+    - quién sos
+    - cómo te describes
+    - cuántos años tienes
+    - eres una máquina
+    - cómo te crearon
+    - eres real
+    - eres un ser humano
+    - cómo me entiendes si eres un robot
+    - es una persona la que me responde
+    - existes de verdad
+    - cómo te llamas
+    - eres un robot
+- intent: CHI-help
+  examples: |
+    - hola qué te puedo preguntar
+    - en qué trabajas
+    - me ayudarías a encontrar cierta informacion?
+    - tengo problemas
+    - qué te puedo preguntar
+    - qué puedes resolver por mí
+    - qué puedes hacer por mí
+    - hola qué sabes decirme
+    - en qué me podrías ayudar
+    - que me ayudes
+    - me echas una mano
+    - para qué me puedes servir de ayuda
+    - sobre qué puedes hablarme?
+    - tengo unas preguntas
+    - qué puedes hacer
+    - tú me puedes ayudar
+    - me puedes ayudar
+    - no sé qué hacer
+    - tengo varias consultas puedes ayudarme
+    - qué sabes hacer
+    - qué hacer
+    - qué puedes resolver
+    - qué dudas resuelves
+    - tu ayuda
+    - hola qué sabes responder
+    - tengo una duda
+    - cuál es tu trabajo
+    - qué haces
+    - qué eres capaz de hacer?
+    - temas de los que puedes hablar
+    - podrías ayudarme
+    - cómo puedes ayudarme
+    - qué sabes decirme
+    - para qué estás aquí
+    - tengo varias dudas
+    - me han surgido unas dudas
+    - tengo unas dudas
+    - hola qué te puedo consultar
+    - qué utilidad tienes
+    - me ayudas
+    - tengo dudas
+    - qué preguntas sabes resolver
+    - que me eches una mano
+    - no me entero
+    - qué puedo pedirte
+    - qué preguntas te puedo hacer
+    - me puedes resolver una duda
+    - en qué puedes ayudarme
+    - tengo unas consultas
+    - qué te puedo consultar
+    - dime qué te puedo preguntar
+    - qué sabes responder
+    - qué sabes decir
+    - cuál es tu función
+    - asistencia
+    - hola qué puedes hacer por mí
+    - hola, ¿qué te puedo consultar
+    - hola, qué sabes decirme
+    - ayuda
+    - tengo un problema
+    - hola, ¿qué puedes hacer por mí
+    - me podrías ayudar
+    - tengo muchas dudas puedes ayudarme
+    - apoyo
+    - échame una mano
+    - qué preguntas sabes responder
+    - qué sabes
+    - ayudita
+    - no entiendo esto
+    - para qué fuiste creado
+    - qué dudas puedes resolver
+    - ¿qué puedo preguntarte
+    - hola, ¿qué sabes responder
+    - tengo una consulta
+    - alguien me socorra
+    - qué puedo hacer contigo
+    - qué hago
+    - me echas un cable
+    - ¿en qué me puedes ayudar
+    - tengo muchas preguntas, ¿podrías ayudarme
+    - dudas
+    - para qué sirves
+    - no sé qué puedo hacer
+    - te importaría ayudarme con una cosa
+    - qué dudas puedes resolverme
+    - en qué me puedes ayudar
+    - apoyo ahora
+    - no sé en qué me puedes ayudar
+    - ¿qué me puedes ofrecer
+    - ¿me ayudas?
+    - qué puedo hacer
+    - una ayuda
+    - hola, qué sabes responder
+    - cómo me puedes ayudar
+- intent: CHI-startOver
+  examples: |
+    - tengo que preguntar otro tema diferente
+    - quiero otra cosa
+    - recomencemos
+    - hablar de otra cosa distinta
+    - un tema distinto
+    - cambiar de tema
+    - vuelve a empezar
+    - cambio consulta
+    - reinicia
+    - necesito preguntar otro tema
+    - otra cosa
+    - reiníciate
+    - necesito otra cosa
+    - hablar de otro asunto
+    - tengo que consultar otro tema
+    - preguntar otra cosa
+    - saber otro tema diferente
+    - quiero preguntar otro tema distinto
+    - consultar otra cosa diferente
+    - quiero otro tema diferente
+    - hablar de otro tema
+    - ir a otra cosa
+    - quiero cambiar de tema
+    - consultar un tema nuevo
+    - tengo que hablar de otra cosa
+    - vuelve atrás
+    - tengo otras dudas
+    - atras
+    - muéstrame el menú
+    - quiero hablar de otra cosa
+    - reiniciar
+    - tengo otras preguntas
+    - comenzar de nuevo
+    - cambiar tema
+    - saber otro tema distinto
+    - necesito preguntar otra cosa
+    - tengo que hablar de otro tema
+    - inicio
+    - quiero hablar de otro tema distinto
+    - vuelve menú principal
+    - abrir de nuevo
+    - necesito otro tema diferente
+    - volver a empezar
+    - consultar otra cosa
+    - hablar de otro tema diferente
+    - iniciar otra vez
+    - volver a lo anterior
+    - quiero consultar otro tema distinto
+    - tengo que saber otra cosa diferente
+    - iniciar
+    - otra cosita
+    - necesito consultar otro tema diferente
+    - saber otra cosa
+    - desde el principio
+    - necesito hablar de otro tema
+    - cambiar de asunto
+    - duda diferente
+    - quiero hablar de otro tema
+    - necesito saber otra cosa diferente
+    - mirar otra cosa
+    - reempezar
+    - quiero hablar de otra cosa distinta
+    - otra cosa diferente
+    - necesito hablar de otra cosa
+    - tengo otra duda distinta
+    - reinicio
+    - quiero otra cosa distinta
+    - otro tema
+    - quiero consultar otra cosa
+    - preguntar otra cosa diferente
+    - tengo otras cuestiones
+    - necesito otra cosa diferente
+    - tengo que saber otra cosa
+    - quiero otro tema distinto
+    - quiero preguntar otra cosa
+    - quiero reformular mi pregunta
+    - quiero preguntar otro tema
+    - quiero otro tema
+    - necesito preguntar otro tema diferente
+    - saber otra cosa distinta
+    - ir al principio
+    - quiero consultar otra cosa distinta
+    - otra cosa distinta
+    - quiero otra cosa diferente
+    - ir al primer paso
+    - ve al inicio
+    - necesito saber otra cosa
+    - tengo que hablar de otra cosa diferente
+    - tengo que consultar otra cosa diferente
+    - cargar de nuevo
+    - otro tema distinto
+    - tengo que preguntar otra cosa diferente
+    - quiero comenzar
+    - tengo que consultar otro tema diferente
+    - comenzar otra vez
+    - pregunta nueva
+    - consultar otro tema distinto
+    - volver al inicio
+    - hablar de otra cosa diferente
+    - paso previo
+    - saber otra cosa diferente
+    - retroceder al comienzo
+    - comenzar desde el principio
+    - necesito consultar otra cosa
+    - comenzar
+    - quiero consultar otra cosa diferente
+    - preguntar por otra cosa
+    - vuelve al principio
+    - quiero consultar otro tema diferente
+    - tengo que preguntar otra cosa
+    - quiero hablar de otra cuestión
+    - consultar otro tema diferente
+    - saber otro tema
+    - quiero saber otra cosa diferente
+    - start
+    - ver un tema distinto
+    - menú
+    - quiero saber otro tema diferente
+    - iniciar de nuevo
+    - preguntar otro tema distinto
+    - quiero saber otro tema distinto
+    - necesito preguntar otra cosa diferente
+    - retomar desde el inicio
+    - restart
+    - ir al comienzo
+    - realizar una consulta
+    - volver al menú de opciones
+    - quiero empezar de nuevo
+    - empezar de nuevo
+    - tengo otra cuestión
+    - volver al principio
+    - quiero saber otro tema
+    - necesito hablar de otro tema diferente
+    - consultar otra cosa distinta
+    - quiero saber otra cosa
+    - tengo que consultar otra cosa
+    - tengo que saber otro tema
+    - cambiar de conversación
+    - preguntar otro tema
+    - reanudar conversación
+- intent: CHI-talkToHuman
+  examples: |
+    - hablar con un agente
+    - me he cansado de este bot
+    - quiero que un empleado de la biblioteca me ayude
+    - teléfono de contacto
+    - tratar con una persona real
+    - contacto humano
+    - dejar de hablar con este chisme
+    - hablar con persona
+    - contacto personal
+    - me puedes dar un teléfono para hablar con un humano?
+    - pásame a un compañero de verdad
+    - contactar con persona
+    - necesito una persona real que me entienda
+    - gestionar mis dudas con uno de vuestros empleados
+    - no bot
+    - necesito que alguien de la biblioteca me de información
+    - numero de contacto de soporte
+    - qué hago para hablar con personas reales?
+    - quiero obtener respuestas de un agente
+    - necesito un agente para resolver mis consultas
+    - no quiero hablar con una máquina
+    - hablar con alguien de vuestras oficinas
+    - ya no busco dirigirme a este asistente
+    - mandar mis cuestiones a alguien normal
+    - una persona
+    - algún agente
+    - número de teléfono donde pueda hablar de esto con una persona
+    - hablar con uno de vuestros trabajadores
+    - no quiero hablar con un robot
+    - que conteste un trabajador
+    - tratar con una persona
+    - pásame a una persona
+    - recibir un trato personal
+    - contigo no quiero hablar
+    - ponerme en contacto con un ser humano
+    - a dónde me dirijo para hablar con un humano?
+    - paso de hablar con un robot
+    - no quiero hablar con un bot
+    - no quiero perder el tiempo hablando con el bot
+    - ayuda de humano
+    - hablar con una persona real
+    - qué hago para hablar con un humano?
+    - redirigir mi consulta a un agente
+    - comunicarme con un operador
+    - Puedo hablar con un trabajador
+    - Me pasas el número de alguien real
+    - Hablar con un superior
+    - algún compañero de la empresa al que pueda llamar
+    - prefiero las llamadas telefónicas
+    - contestar un trabajador
+- intent: DIA-INT-ask_info_LIBR
+  examples: |
+    - información [biblioteca](resource_type)
+    - sobre [biblioteca](resource_type)
+    - [biblioteca](resource_type)
+    - info de la [biblioteca](resource_type) ?
+    - datos de una [biblio]{"entity": "resource_type", "value": "biblioteca"}
+    - dato de [biblio]{"entity": "resource_type", "value": "biblioteca"}
+    - [bibliotecas]{"entity": "resource_type", "value": "biblioteca"}
+    - info de [biblios]{"entity": "resource_type", "value": "biblioteca"}
+    - la [biblio]{"entity": "resource_type", "value": "biblioteca"}
+    - información de la [biblioteca](resource_type)
+    - Cierra o esta abierta las 24 horas?
+    - cuando cierras
+    - hora de cierre
+    - información general de la [biblioteca](resource_type)
+    - direccion de [edificio]{"entity": "resource_type", "value": "biblioteca"}
+    - [teléfono]{"entity": "resource_type", "value": "biblioteca"}
+    - un [mail]{"entity": "resource_type", "value": "biblioteca"}
+    - contactar por [correo]{"entity": "resource_type", "value": "biblioteca"} con la [biblioteca](resource_type)
+    - informacion de [bibliotecas]{"entity": "resource_type", "value": "biblioteca"}
+    - información de [bibliotecas]{"entity": "resource_type", "value": "biblioteca"}
+    - el horario de la [biblioteca](resource_type)
+    - [zambrano](LIB_name)
+    - la [zambrano](LIB_name)
+    - [biblioteca](resource_type) [maria zambrano](LIB_name)
+    - [biblio]{"entity": "resource_type", "value": "biblioteca"} de [filosofía](LIB_name)
+    - la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [ciencias](LIB_name)
+    - info de la [biblioteca](resource_type) de la [Facultad]{"entity": "resource_type", "value": "biblioteca"} de [Educación](LIB_name)
+    - [biblioteca](resource_type) de [informática](LIB_name) información
+    - [biblio]{"entity": "resource_type", "value": "biblioteca"} de [bellas artes](LIB_name)
+    - [estadística](LIB_name) información de [biblioteca](resource_type)
+    - de la de [Medicina](LIB_name) necesito la info
+    - los datos de la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [enfermeria](LIB_name)
+    - [facultad]{"entity": "resource_type", "value": "biblioteca"} de [psicología](LIB_name) [biblioteca](resource_type)
+    - de la de [químicas](LIB_name)
+    - el [telefono]{"entity": "resource_type", "value": "biblioteca"} de la de [biologia](LIB_name)
+    - la de [educacion](LIB_name) necesito
+    - informacion de contacto de la [biblioteca](resource_type) de [fisioterapia](BOOK_KW)
+    - el [horario]{"entity": "resource_type", "value": "biblioteca"} de la [biblioteca](resource_type) de [odontologia](LIB_name)
+    - informacion de [biblioteca](resource_type) [maria zambrano](LIB_name)
+    - el [horario]{"entity": "resource_type", "value": "biblioteca"} de la [bilioteca](resource_type) de la [facultad]{"entity": "resource_type", "value": "biblioteca"} de [medicina](LIB_name)
+    - [filología](LIB_name)
+    - [química](LIB_name)
+    - la [maría zambrano](LIB_name)
+    - [biblioteca](resource_type) de ciencias [políticas](LIB_name)
+    - [biblio]{"entity": "resource_type", "value": "biblioteca"} de [medicina](LIB_name)
+    - [psicología](LIB_name)
+    - necesito la info de la [biblioteca](resource_type) de [filosofía](LIB_name)
+    - la de [historia](LIB_name)
+    - [geografia](LIB_name) es lo que busco
+    - [filologia](LIB_name)
+    - [enfermería](LIB_name) biblioteca
+    - [facultad]{"entity": "resource_type", "value": "biblioteca"} de [informática](LIB_name)
+    - necesito buscar sobre la [biblioteca](resource_type) de [derecho](LIB_name)
+    - la de [odontologia](LIB_name)
+    - de [enfermeria](LIB_name) estoy buscando
+    - de la de [educación](LIB_name)
+    - [Biologia](LIB_name) es la [biblioteca](resource_type) que necesito
+    - ir a la [biblio]{"entity": "resource_type", "value": "biblioteca"} de la [facultad]{"entity": "resource_type", "value": "biblioteca"} de [Geografía e historia](LIB_name)
+    - el [teléfono]{"entity": "resource_type", "value": "biblioteca"} de la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [documentación](LIB_name)
+    - la de ciencias [químicas](LIB_name)
+    - [facultad]{"entity": "resource_type", "value": "biblioteca"} de [Fisica](LIB_name)
+    - creo que es la de [Matematicas](LIB_name)
+    - [quimica](LIB_name)
+    - [filosofia](LIB_name)
+    - [derecho](LIB_name)
+    - la de [periodismo](LIB_name)
+- intent: DIA-INT-find_BOOK
+  examples: |
+    - [ensayo]{"entity": "resource_type", "value": "fondo"} es lo que busco
+    - necesito [bibliografía]{"entity": "resource_type", "value": "fondo"} sobre [análisis literario](BOOK_KW)
+    - necesito el [libro]{"entity": "resource_type", "value": "fondo"} de [harry potter](BOOK_KW)
+    - quiero libros del [autor]{"entity": "resource_type", "value": "fondo"} [Miguel de Cervantes](BOOK_KW)
+    - quiero encontrar [libros]{"entity": "resource_type", "value": "fondo"} de [periodismo](BOOK_KW)
+    - [bibliografía]{"entity": "resource_type", "value": "fondo"} [filología](BOOK_KW)
+    - [volúmen]{"entity": "resource_type", "value": "fondo"} de [diccionario panhispanico de dudas](BOOK_KW)
+    - hay [ejemplares]{"entity": "resource_type", "value": "fondo"} de [don quijote de la mancha](BOOK_KW)?
+    - busco [canción de hielo y fuego](BOOK_KW)
+    - [paradise lost](BOOK_KW) estoy buscando
+    - quiero un [ejemplar]{"entity": "resource_type", "value": "fondo"} de [the waste land](BOOK_KW), teneis alguno disponible?
+    - qué teneis de [Chomsky](BOOK_KW)?
+    - busco algún [análisis stephen king](BOOK_KW)
+    - [Libro]{"entity": "resource_type", "value": "fondo"} de [Chomsky](BOOK_KW)
+    - Busco un [libro]{"entity": "resource_type", "value": "fondo"} de [Laforet](BOOK_KW)
+    - Quiero una [obra]{"entity": "resource_type", "value": "fondo"} de [lorca](BOOK_KW) para mi tfg
+    - buscar [libro]{"entity": "resource_type", "value": "fondo"}
+    - necesito encontrar un [libro]{"entity": "resource_type", "value": "fondo"}
+    - ayudame a encontrar un [título]{"entity": "resource_type", "value": "fondo"}
+    - necesito un [volúmen]{"entity": "resource_type", "value": "fondo"} en concreto
+    - puedo buscar [libros]{"entity": "resource_type", "value": "fondo"} por aquí?
+    - encontrar una [obra]{"entity": "resource_type", "value": "fondo"}
+    - ver si un [libro]{"entity": "resource_type", "value": "fondo"} está disponible
+    - saber si teneis un [libro]{"entity": "resource_type", "value": "fondo"} en concreto
+    - buscar [libros]{"entity": "resource_type", "value": "fondo"} para un trabajo
+    - acceso al [catalogo]{"entity": "resource_type", "value": "fondo"}
+    - teneis un libro en el [catálogo]{"entity": "resource_type", "value": "fondo"}
+    - encontrar un recurso en el [catálogo]{"entity": "resource_type", "value": "fondo"}
+    - ahora quiero consultar el [catalogo]{"entity": "resource_type", "value": "fondo"}
+    - consultar un titulo en el [catalogo]{"entity": "resource_type", "value": "fondo"}
+- intent: BOOK_data
+  examples: |
+    - de [harry potter](BOOK_KW)
+    - del [autor]{"entity": "resource_type", "value": "fondo"} [Miguel Cabañas](BOOK_KW)
+    - [libro]{"entity": "resource_type", "value": "fondo"} de [anatomia](BOOK_KW)
+    - estoy buscando [articulos]{"entity": "resource_type", "value": "fondo"} sobre [el señor de los anillos](BOOK_KW)
+    - [dracula](BOOK_KW)
+    - [bibliografía]{"entity": "resource_type", "value": "fondo"} de [Fuego y Sangre](BOOK_KW)
+    - [articulos]{"entity": "resource_type", "value": "fondo"} de [Harry Potter](BOOK_KW)
+    - algún [libro]{"entity": "resource_type", "value": "fondo"} de [recetas](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [justicia](BOOK_KW)
+    - [bibliografía]{"entity": "resource_type", "value": "fondo"} de [astronomía](BOOK_KW)
+    - algún [libro]{"entity": "resource_type", "value": "fondo"} sobre [comunismo](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [Narnia](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [Septimus](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [el mago de oz](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [cuentos](BOOK_KW)
+    - [obras]{"entity": "resource_type", "value": "fondo"} de [fantasía](BOOK_KW)
+    - [articulos]{"entity": "resource_type", "value": "fondo"} de [ejercicios resueltos](BOOK_KW) necesito
+    - necestio [libros]{"entity": "resource_type", "value": "fondo"} sobre [baloncesto](BOOK_KW)
+    - necesito una [obra]{"entity": "resource_type", "value": "fondo"} literaria de [poemas](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [música](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} sobre [marxismo](BOOK_KW)
+    - busca [libros]{"entity": "resource_type", "value": "fondo"} de [mitología](BOOK_KW)
+    - busco [libros]{"entity": "resource_type", "value": "fondo"} de [hijos y amantes](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [amor](BOOK_KW) quiero
+    - quiero [titulos]{"entity": "resource_type", "value": "fondo"} sobre [capitalismo](BOOK_KW)
+    - quiero un [libro]{"entity": "resource_type", "value": "fondo"} de [comedia](BOOK_KW)
+    - busca [obras]{"entity": "resource_type", "value": "fondo"} de [viajes](BOOK_KW)
+    - dame [ensayos]{"entity": "resource_type", "value": "fondo"} de [estudios](BOOK_KW)
+    - dame [artículos]{"entity": "resource_type", "value": "fondo"} sobre [videojuegos](BOOK_KW)
+    - [ensayo]{"entity": "resource_type", "value": "fondo"} de [electrónica](BOOK_KW)
+    - [titulos]{"entity": "resource_type", "value": "fondo"} de [mecánica](BOOK_KW)
+    - [artículos]{"entity": "resource_type", "value": "fondo"} de [japonés](BOOK_KW)
+    - [bibliografía]{"entity": "resource_type", "value": "fondo"} sobre [Japón](BOOK_KW)
+    - [títulos]{"entity": "resource_type", "value": "fondo"} de [inglés](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [alemán](BOOK_KW)
+    - [articulos]{"entity": "resource_type", "value": "fondo"} de [francés](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [español](BOOK_KW)
+    - [articulos]{"entity": "resource_type", "value": "fondo"} de [cocina](BOOK_KW)
+    - [artículos]{"entity": "resource_type", "value": "fondo"} de [hacienda](BOOK_KW)
+    - [volúmen]{"entity": "resource_type", "value": "fondo"} de [meteorología](BOOK_KW)
+    - [libros]{"entity": "resource_type", "value": "fondo"} de [Juego de Tronos](BOOK_KW)
+- synonym: biblioteca
+  examples: |
+    - biblio
+    - bibliotecas
+    - bibliotek
+    - biblios
+    - edificio
+    - teléfono
+    - telefono
+    - telefonos
+    - telefonos
+    - mail
+    - email
+    - correo
+    - facultad
+    - horario
+    - horarios
+- synonym: fondo
+  examples: |
+    - fondos
+    - libro
+    - libros
+    - título
+    - titulo
+    - titulos
+    - títulos
+    - volúmen
+    - volumen
+    - volúmenes
+    - volumenes
+    - obra
+    - obras
+    - catalogo
+    - catalogos
+    - catálogos
+    - catálogo
+    - ensayo
+    - ensayos
+    - bibliografía
+    - bibliografia
+    - bibliografias
+    - bibliografías
+    - autor
+    - autora
+    - autoras
+    - autores
+    - escritor
+    - escritora
+    - escritores
+    - escritoras
+    - ejemplares
+    - ejemplar
+    - articulos
+    - artículos
+    - artículo
+    - articulo
+
+
+

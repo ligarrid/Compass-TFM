@@ -1,0 +1,50 @@
+version: "2.0"
+
+rules:
+- rule: out-of-scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_nlu_fallback
+
+- rule: chitchat CHI-greetings
+  steps:
+  - intent: CHI-greetings
+  - action: utter_CHI-greetings
+
+- rule: chitchat CHI-thankyou
+  steps:
+  - intent: CHI-thankyou
+  - action: utter_CHI-thankyou
+
+- rule: chitchat CHI-hate
+  steps:
+  - intent: CHI-hate
+  - action: utter_CHI-hate
+
+- rule: chitchat botIdentity
+  steps:
+  - intent: CHI-botIdentity
+  - action: utter_CHI-botIdentity
+
+- rule: chitchat CHI-help
+  steps:
+  - intent: CHI-help
+  - action: utter_CHI-help
+
+- rule: chitchat CHI-startOver
+  steps:
+  - intent: CHI-startOver
+  - action: utter_CHI-startOver
+
+- rule: chitchat CHI-talkToHuman
+  steps:
+  - intent: CHI-talkToHuman
+  - action: utter_CHI-talkToHuman
+
+
+
