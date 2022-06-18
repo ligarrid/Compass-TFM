@@ -1,4 +1,7 @@
+#coding: utf8
+
 import urllib
+import re
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import XML, fromstring 
 
@@ -27,17 +30,33 @@ class Utils:
         
     @staticmethod
     def xmlToArray(xmlResponse):
-        
-        xmlResponse = xmlResponse[2:-2]
+        newLineReg = r'\n |\n'
 
-        tree = ET.ElementTree(ET.fromstring(xmlResponse))
-        root = tree.getroot()
+        xmlResponse = re.sub(newLineReg, '', xmlResponse)
+
+        # tree = ET.ElementTree(ET.fromstring(xmlResponse))
+        root = ET.fromstring(xmlResponse)
         myArray=[]
 
-        for x in root.findall('field'):
-            myArray.append(x.text)
+        for child in root:
+            tagReg = r'{.+}'
+            childTag = re.sub(tagReg, '', child.tag)
+            if childTag == 'entry':
+                for subchild in child:
+                    subchildTag = re.sub(tagReg, '', subchild.tag)
+                    infoTags = ['title', 'recordIdentifier']
 
-        return (myArray) 
+                    if subchildTag in infoTags:
+                        myArray.append([subchildTag, subchild.text])
+                    elif subchildTag == 'link':
+                        myArray.append([subchildTag, subchild.attrib])
+
+                    elif subchildTag == 'author':
+                        for nameTag in subchild:
+                            subchildNameTag = re.sub(tagReg, '', nameTag.tag)
+                            myArray.append([subchildNameTag, nameTag.text])
+
+        return (str(myArray)) 
 
     @staticmethod
     def testing():

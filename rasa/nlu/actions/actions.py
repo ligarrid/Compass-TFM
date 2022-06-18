@@ -108,9 +108,9 @@ class BOOKFormAction(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        if tracker.slots.get("resource_type") is None:
-            dispatcher.utter_message(text="te refieres a un libro?")
-            return []
+        # if tracker.slots.get("resource_type") is None:
+        #     dispatcher.utter_message(text="te refieres a un libro?")
+        #     return []
 
         if tracker.slots.get("resource_type") == "fondo":
             if tracker.slots.get("BOOK_KW") is None:
@@ -150,9 +150,10 @@ class GetBook(Action):
 
         if Utils.isEntityInTracker("BOOK_KW", tracker):
             xm = JanetServer().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
-            print(xm[:15])
-            if xm is not None:
-                xml_message = "{}".format(xm)
+            xmString = str(xm, 'utf8')
+            print(xmString)
+            if xmString is not None:
+                xml_message = "{}".format(xmString)
                 xml_message = Utils.xmlToArray(xml_message)
                 dispatcher.utter_message(text=xml_message)
             else:

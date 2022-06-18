@@ -42,7 +42,7 @@ slots:
 responses:
   utter_CHI-greetings:
   - text: |-
-      ¡Hola! Mi nombre es Janet y estaré encantada de ayudarte con estos temas:
+      ¡Hola! Soy Compass, el asistente de la Biblioteca UCM. Por el momento, puedo ayudarte con alguno estos temas:
 
   - buttons: 
       - title: "Información de bibliotecas"
@@ -56,7 +56,7 @@ responses:
   utter_CHI-hate:
   - text: Siento oír eso. Intento mejorar día a día
   utter_CHI-botIdentity:
-  - text: Soy Janet, un asistente diseñado para ayudarte en tus consultas sobre información y recursos de la biblioteca
+  - text: Soy Compass, un asistente diseñado para ayudarte en tus consultas sobre información y recursos de la biblioteca.
   utter_CHI-help:
   - text: |-
       Ahora mismo puedo ayudarte con los siguientes temas:
