@@ -126,6 +126,7 @@ class BOOKFormAction(Action):
             ConversationData.previousIntent, '\n', 
             ConversationData.entityList)
 
+
         if tracker.slots.get("resource_type") == "fondo":
             if tracker.slots.get("BOOK_KW") is None:
                 dispatcher.utter_message(response="utter_BOOK_form_BOOK_KW")
