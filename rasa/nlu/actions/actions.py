@@ -12,7 +12,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, SessionStarted, ActionExecuted, EventType, FollowupAction, AllSlotsReset
 from .UtilitiesJSON import UtilitiesJSON as Ujson
 from .Utils import Utils
-from .InteractorWorldCat import JanetServer
+from .InteractorWorldCat import WorldCatAPI
 from .ConversationData import ConversationData
 
 
@@ -32,14 +32,16 @@ class LIBFormAction(Action):
             "Library_form",
             tracker.slots)
 
-        print(ConversationData.controlVariable, '\n', ConversationData.previousIntent, '\n', ConversationData.entityList)
+        print(ConversationData.controlVariable, '\n', 
+            ConversationData.previousIntent, '\n', 
+            ConversationData.entityList)
 
         if ConversationData.controlVariable == "Library_form":
             lookupLIB = open("./data/LIBnames.yaml")
             parsed_yaml_file = yaml.load(lookupLIB, Loader=yaml.FullLoader)
 
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
-            #print(LIBlist)
+            
             if tracker.slots.get("LIB_name") is None or tracker.slots.get("LIB_name") not in LIBlist:
                 dispatcher.utter_message(response="utter_LIB_form_LIB_name")
             else:
@@ -67,6 +69,7 @@ class GetLIBInfo(Action):
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
@@ -87,7 +90,7 @@ class GetLIBInfo(Action):
                                                      lib["email"])
             else:
                 # TODO: añadir respuesta catch en la entrada de respuestas nlu
-                dispatcher.utter_message(text="lo siento no puedo encontrar la bibliteca que buscas")
+                dispatcher.utter_message(text="Lo siento no puedo encontrar la bibliteca que buscas")
 
             dispatcher.utter_message(text=template_text)
             ConversationData.resetConversationData(ConversationData())
@@ -111,10 +114,24 @@ class BOOKFormAction(Action):
         # if tracker.slots.get("resource_type") is None:
         #     dispatcher.utter_message(text="te refieres a un libro?")
         #     return []
+        # reversed_events = list(reversed(tracker.events))
+
+        ConversationData.setSessionData(
+            ConversationData(),
+            tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+            "Book_form",
+            tracker.slots)
+
+        print(ConversationData.controlVariable, '\n', 
+            ConversationData.previousIntent, '\n', 
+            ConversationData.entityList)
 
         if tracker.slots.get("resource_type") == "fondo":
             if tracker.slots.get("BOOK_KW") is None:
                 dispatcher.utter_message(response="utter_BOOK_form_BOOK_KW")
+                
+                # list of events "search for event: user" y dentro parse_data.intent.name
+                # print(reversed_events)
             elif tracker.slots.get("BOOK_KW") is not None:
                 print(tracker.latest_message['entities'])
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
@@ -146,10 +163,9 @@ class GetBook(Action):
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
-        # dispatcher.utter_message(text=f"{tracker.latest_message}")
 
         if Utils.isEntityInTracker("BOOK_KW", tracker):
-            xm = JanetServer().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
+            xm = WorldCatAPI().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
             xmString = str(xm, 'utf8')
             print(xmString)
             if xmString is not None:
@@ -159,6 +175,11 @@ class GetBook(Action):
             else:
                 dispatcher.utter_message(
                     text="La consulta al catálogo ha fallado. Por favor inténtalo en unos minutos.")
+
+        ConversationData.resetConversationData(ConversationData())
+        print(ConversationData.controlVariable, '\n',
+                ConversationData.previousIntent, '\n',
+                ConversationData.entityList)
 
         return [AllSlotsReset()]
 

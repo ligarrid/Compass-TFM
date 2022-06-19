@@ -1,6 +1,5 @@
 import urllib
 from urllib import request, error, parse
-import requests
 import json
 # import lxml.etree as ET
 # import io
