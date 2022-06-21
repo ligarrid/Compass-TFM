@@ -1,9 +1,9 @@
 import json
 import unidecode
-
+from pathlib import Path
 
 class UtilitiesJSON:
-    PATH = "D:/Desktop/pruebas-rasa-webchat/rasa/nlu/data/LIBdata.json"
+    PATH = Path(__file__).parent / "data/LIBdata.json"
     jsonData = ""
 
     def __init__(self):

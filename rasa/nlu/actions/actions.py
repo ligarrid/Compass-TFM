@@ -14,6 +14,8 @@ from .UtilitiesJSON import UtilitiesJSON as Ujson
 from .Utils import Utils
 from .InteractorWorldCat import WorldCatAPI
 from .ConversationData import ConversationData
+from pathlib import Path
+
 
 
 class LIBFormAction(Action):
@@ -37,7 +39,9 @@ class LIBFormAction(Action):
             ConversationData.entityList)
 
         if ConversationData.controlVariable == "Library_form":
-            lookupLIB = open("./data/LIBnames.yaml")
+
+            path = Path(__file__).parent / "data/LIBnames.yaml"
+            lookupLIB = open(path)
             parsed_yaml_file = yaml.load(lookupLIB, Loader=yaml.FullLoader)
 
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
@@ -198,19 +202,22 @@ class resetSlots(Action):
         return [AllSlotsReset()]
 
 
-"""
-class UtterLibNoInfo(Action):
+
+class CheckFallbackContext(Action):
     def name(self) -> Text:
-        return "LIB_no_info"
+        return "check_fallback_context"
 
     def run(self,
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        template_text = domain.get("responses").get("utter_LIB_name_input")[0].get("text")
-        dispatcher.utter_message(text=template_text)
+        # template_text = domain.get("responses").get("utter_LIB_name_input")[0].get("text")
+        # dispatcher.utter_message(text=template_text)
+
 
         return []
+
+"""
 class NoInfoBook(Action):
     def name(self) -> Text:
         return "BOOK_no_info"

@@ -1,14 +1,13 @@
 import urllib
 from urllib import request, error, parse
 import json
-# import lxml.etree as ET
-# import io
-
+from pathlib import Path
 from .Utils import Utils
 
 
-class JanetServer:
-    PATH = "D:/Desktop/pruebas-rasa-webchat/rasa/nlu/data/wskey.conf"  # @TODO: PATH RELATIVOS NO ABSOLUTOS
+class WorldCatAPI:
+
+    PATH = Path(__file__).parent / "data/wskey.conf"
 
     def __init__(self):
         with open(self.PATH, encoding="utf-8") as f:

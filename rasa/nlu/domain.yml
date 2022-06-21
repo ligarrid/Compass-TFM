@@ -43,12 +43,9 @@ responses:
   utter_CHI-greetings:
   - text: |-
       ¡Hola! Soy Compass, el asistente de la Biblioteca UCM. Por el momento, puedo ayudarte con alguno estos temas:
-
-  - buttons: 
-      - title: "Información de bibliotecas"
-        payload:      
-      - title: "Consultar títulos del catálogo"
-        payload: 
+      
+      - Información de bibliotecas
+      - Consultar títulos del catálogo
   utter_CHI-stop:
   - text: Vale, ¡vuelve cuando quieras!
   utter_CHI-thankyou:
@@ -83,7 +80,7 @@ responses:
   - text: Vale. ¿Podrías decirme el nombre de la biblioteca sobre la que quieres buscar información?
   utter_ask_info_LIBR:
   - text: |-
-      Aquí tienes toda la información referente a la biblioteca {}:
+      Aquí tienes toda la información referente a la {}:
        - Horario: {} a {} 
        - Dirección: {} 
        - Teléfono: {} 
@@ -109,6 +106,7 @@ actions:
   - LIB_get_info
   - LIB_no_info
   - ResetSlots
+  - check_fallback_context
 forms:
   LIB_form:
     ignored_intents:
