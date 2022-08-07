@@ -41,59 +41,121 @@ slots:
     influence_conversation: false
 responses:
   utter_CHI-greetings:
-  - text: |-
-      ¡Hola! Soy Compass, el asistente de la Biblioteca UCM. Por el momento, puedo ayudarte con alguno estos temas:
-      
-      - Información de bibliotecas
-      - Consultar títulos del catálogo
+    - custom:
+        0: 
+            text: |-
+              ¡Hola! Soy Compass, el asistente de la Biblioteca UCM. Por el momento, puedo ayudarte con alguno estos temas:
+            payload: plain_text
+        1: 
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
+            payload: plain_text
   utter_CHI-stop:
-  - text: Vale, ¡vuelve cuando quieras!
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Vale, ¡vuelve cuando quieras!
   utter_CHI-thankyou:
-  - text: Gracias a ti. Me alegra serte de ayuda
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Gracias a ti. Me alegra serte de ayuda
   utter_CHI-hate:
-  - text: Siento oír eso. Intento mejorar día a día
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Siento oír eso. Intento mejorar día a día
   utter_CHI-botIdentity:
-  - text: Soy Compass, un asistente diseñado para ayudarte en tus consultas sobre información y recursos de la biblioteca.
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Soy Compass, un asistente diseñado para ayudarte en tus consultas sobre información y recursos de la biblioteca.
   utter_CHI-help:
-  - text: |-
-      Ahora mismo puedo ayudarte con los siguientes temas:
-
-      - Información de bibliotecas
-      - Consultar títulos del catálogo
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Ahora mismo puedo ayudarte con los siguientes temas:
+        1: 
+            payload: plain_text
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
   utter_CHI-startOver:
-  - text: |-
-      Vale, volvemos a empezar. ¿Qué necesitas?:
-
-      - Información de bibliotecas
-      - Consultar títulos del catálogo
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Vale, volvemos a empezar. ¿Qué necesitas?:
+        1: 
+            payload: plain_text
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
   utter_CHI-talkToHuman:
-  - text: |-
-      Si necesitas más ayuda puedes contactar con el servicio de atención a través de este número:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Si necesitas más ayuda puedes contactar con el servicio de atención a través de este número:
 
-      910 000 000
+              910 000 000
   utter_did_that_help:
-  - text: |-
-      Si necesitas más información siempre puedes dirigirte al directorio de bibliotecas a través de este enlace:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Si necesitas más información siempre puedes dirigirte al directorio de bibliotecas a través de este enlace:
 
-       https://biblioteca.ucm.es/bibliotecasyhorarios
+              https://biblioteca.ucm.es/bibliotecasyhorarios
   utter_LIB_form_LIB_name:
-  - text: Vale. ¿Podrías decirme el nombre de la biblioteca sobre la que quieres buscar información?
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+                Vale. ¿Podrías decirme el nombre de la biblioteca sobre la que quieres buscar información?
   utter_ask_info_LIBR:
-  - text: |-
-      Aquí tienes toda la información referente a la {}:
-       - Horario: {} a {} 
-       - Dirección: {} 
-       - Teléfono: {} 
-       - Correo: {}
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Aquí tienes toda la información referente a la {}:
+              - Horario: {} a {} 
+              - Dirección: {} 
+              - Teléfono: {} 
+              - Correo: {}
   utter_find_BOOK:
-  - text: |-
-      Estos son los resultados más relevantes alojados en el catálogo: [CARD] Si no es exactamente lo que buscabas, aquí tienes el enlace a la página del catálogo, en la que podrás filtrar mejor tu búsqueda:
-
-      https://ucm.on.worldcat.org/v2
+    - custom:
+        0: 
+            text: |-
+              Estos son los resultados más relevantes alojados en el catálogo: 
+            payload: plain_text
+        1: 
+            text: |-
+              {}
+            payload: xml_text
+        2:
+            text: |-
+              Si no es exactamente lo que buscabas, aquí tienes el enlace a la página del catálogo, en la que podrás filtrar mejor tu búsqueda:
+              https://ucm.on.worldcat.org/v2
+            payload: plain_text
   utter_BOOK_form_BOOK_KW:
-  - text: Para ayudarte en tu búsqueda necesito que mes des más pistas... Dime algún término o palabra clave por los que quieras realizar tu búsqueda
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Para ayudarte en tu búsqueda necesito que mes des más pistas... Dime algún término o palabra clave por los que quieras realizar tu búsqueda
   utter_out_of_scope:
-  - text: Lo siento, pero por el momento lo que me pides está fuera de mi alcance. Por favor, para ello contacta con mis compañeros de la biblioteca. ¡Seguro que estarán encantados de atender tu petición!
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Lo siento, pero por el momento lo que me pides está fuera de mi alcance. Por favor, para ello contacta con mis compañeros de la biblioteca. ¡Seguro que estarán encantados de atender tu petición!
   utter_nlu_fallback:
   - text: ¡Vaya! Creo que no te entiendo. ¿Podrías decírmelo con otras palabras?
   - text: Lo siento, pero me está siendo difícil entenderte. Si necesitas ayuda, siempre puedes contactar con mis compañeros de la biblioteca. ¡Estarán encantados de atenderte!

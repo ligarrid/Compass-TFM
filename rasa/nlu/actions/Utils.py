@@ -1,5 +1,5 @@
 #coding: utf8
-
+import json
 import urllib
 import re
 import xml.etree.ElementTree as ET
@@ -30,31 +30,36 @@ class Utils:
         
     @staticmethod
     def xmlToArray(xmlResponse):
-        newLineReg = r'\n |\n'
-
-        xmlResponse = re.sub(newLineReg, '', xmlResponse)
-
-        # tree = ET.ElementTree(ET.fromstring(xmlResponse))
+        # Clean WorldCAT response of newline escape characters
+        xmlResponse = re.sub(r'\n |\n', '', xmlResponse)
         root = ET.fromstring(xmlResponse)
+
         myArray=[]
 
         for child in root:
+            entryDict = {}
             tagReg = r'{.+}'
             childTag = re.sub(tagReg, '', child.tag)
             if childTag == 'entry':
                 for subchild in child:
                     subchildTag = re.sub(tagReg, '', subchild.tag)
                     infoTags = ['title', 'recordIdentifier']
+                    unavailableText = "{} unavailable"
 
                     if subchildTag in infoTags:
-                        myArray.append([subchildTag, subchild.text])
+                        entryDict[subchildTag] = subchild.text if len(subchild.text) >= 0 else unavailableText.format(subchildTag.capitalize())
+
                     elif subchildTag == 'link':
-                        myArray.append([subchildTag, subchild.attrib])
+                        entryDict[subchildTag] = subchild.attrib if len(subchild.attrib) >= 0 else unavailableText.format(subchildTag.capitalize())
 
                     elif subchildTag == 'author':
                         for nameTag in subchild:
                             subchildNameTag = re.sub(tagReg, '', nameTag.tag)
-                            myArray.append([subchildNameTag, nameTag.text])
+                            entryDict[subchildNameTag] = nameTag.text if len(nameTag.text) >= 0 else unavailableText.format(subchildNameTag.capitalize())
+            
+            if len(entryDict) > 0:
+                jsonDict = json.dumps(entryDict)
+                myArray.append(jsonDict)
 
         return (str(myArray)) 
 

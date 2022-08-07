@@ -4,4 +4,5 @@ call cd D:\Desktop\pruebas-rasa-webchat\rasa\nlu
 
 @REM call rasa train && rasa run --debug
 
-call rasa run --debug
+call rasa train
+call rasa run --enable-api --port 5005 --cors "*" --debug

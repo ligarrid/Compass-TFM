@@ -82,9 +82,9 @@ class GetLIBInfo(Action):
         if Utils.isEntityInTracker("LIB_name", tracker):
             lib = Ujson().getKeyWord(Utils.getValueFromEntity("LIB_name", tracker))
 
-            template_text = domain.get("responses").get("utter_ask_info_LIBR")[0].get("text")
+            template_response = domain.get("responses").get("utter_ask_info_LIBR").get("custom")
             # TODO añadir control cuando NoneType por falta de ortografia (nombre no existe en BDD) done, not tested
-
+            template_text = template_response[0]['text']
             if lib["name"] is not None:
                 template_text = template_text.format(lib["name"],
                                                      lib["open_hour"],
@@ -176,7 +176,17 @@ class GetBook(Action):
             if xmString is not None:
                 xml_message = "{}".format(xmString)
                 xml_message = Utils.xmlToArray(xml_message)
-                dispatcher.utter_message(text=xml_message)
+
+                custom_response = domain.get("responses").get("utter_find_BOOK")[0].get("custom")
+
+                print('CUSTOM RESPONSE', custom_response)
+                domain_text = custom_response['1']['text']
+                print('DOMAIN TEXT', domain_text)
+                domain_text = domain_text.format(xml_message)
+
+                custom_response['1']['text'] = domain_text
+                dispatcher.utter_message(json_message = custom_response)
+
             else:
                 dispatcher.utter_message(
                     text="La consulta al catálogo ha fallado. Por favor inténtalo en unos minutos.")

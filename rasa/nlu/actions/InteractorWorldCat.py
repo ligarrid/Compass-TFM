@@ -30,7 +30,7 @@ class WorldCatAPI:
 
         type = "kw"
 
-        consulta = {"wskey": self.__wskeydata["key"], "count": 10, "start": 0}
+        consulta = {"wskey": self.__wskeydata["key"], "count": 3, "start": 0}
         if type == "kw":
             consulta['q'] = 'srw.kw all "' + title + '"'
 
