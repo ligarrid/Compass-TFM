@@ -592,21 +592,19 @@ nlu:
 - intent: DIA-INT-find_BOOK
   examples: |
     - [ensayo]{"entity": "resource_type", "value": "fondo"} es lo que busco
-    - necesito [bibliografía]{"entity": "resource_type", "value": "fondo"} sobre [análisis literario](BOOK_KW)
-    - necesito el [libro]{"entity": "resource_type", "value": "fondo"} de [harry potter](BOOK_KW)
-    - quiero libros del [autor]{"entity": "resource_type", "value": "fondo"} [Miguel de Cervantes](BOOK_KW)
-    - quiero encontrar [libros]{"entity": "resource_type", "value": "fondo"} de [periodismo](BOOK_KW)
-    - [bibliografía]{"entity": "resource_type", "value": "fondo"} [filología](BOOK_KW)
-    - [volúmen]{"entity": "resource_type", "value": "fondo"} de [diccionario panhispanico de dudas](BOOK_KW)
-    - hay [ejemplares]{"entity": "resource_type", "value": "fondo"} de [don quijote de la mancha](BOOK_KW)?
-    - busco [canción de hielo y fuego](BOOK_KW)
-    - [paradise lost](BOOK_KW) estoy buscando
+    - necesito [bibliografía]{"entity": "resource_type", "value": "fondo"} sobre 
+    - necesito el [libro]{"entity": "resource_type", "value": "fondo"} de 
+    - quiero libros del [autor]{"entity": "resource_type", "value": "fondo"} 
+    - quiero encontrar [libros]{"entity": "resource_type", "value": "fondo"} de 
+    - [bibliografía]{"entity": "resource_type", "value": "fondo"} 
+    - [volúmen]{"entity": "resource_type", "value": "fondo"} de 
+    - hay [ejemplares]{"entity": "resource_type", "value": "fondo"} de ?
     - quiero un [ejemplar]{"entity": "resource_type", "value": "fondo"} de [the waste land](BOOK_KW), teneis alguno disponible?
-    - qué teneis de [Chomsky](BOOK_KW)?
-    - busco algún [análisis stephen king](BOOK_KW)
-    - [Libro]{"entity": "resource_type", "value": "fondo"} de [Chomsky](BOOK_KW)
-    - Busco un [libro]{"entity": "resource_type", "value": "fondo"} de [Laforet](BOOK_KW)
-    - Quiero una [obra]{"entity": "resource_type", "value": "fondo"} de [lorca](BOOK_KW) para mi tfg
+    - qué teneis de ?
+    - busco algún 
+    - [Libro]{"entity": "resource_type", "value": "fondo"} de 
+    - Busco un [libro]{"entity": "resource_type", "value": "fondo"} de 
+    - Quiero una [obra]{"entity": "resource_type", "value": "fondo"} de  para mi tfg
     - buscar [libro]{"entity": "resource_type", "value": "fondo"}
     - necesito encontrar un [libro]{"entity": "resource_type", "value": "fondo"}
     - ayudame a encontrar un [título]{"entity": "resource_type", "value": "fondo"}

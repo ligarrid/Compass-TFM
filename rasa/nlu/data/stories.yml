@@ -97,13 +97,9 @@ stories:
   - intent: DIA-INT-find_BOOK
     entities:
     - resource_type: fondo
-    - BOOK_KW: Chomsky
   - slot_was_set:
     - resource_type: fondo
-  - slot_was_set:
-    - BOOK_KW: Chomsky
   - action: BOOK_form
-  - action: BOOK_get_info
 
 - story: interactive_story_9
   steps:
@@ -113,10 +109,4 @@ stories:
   - slot_was_set:
     - resource_type: fondo
   - action: BOOK_form
-  - intent: DIA-INT-find_BOOK
-    entities:
-    - BOOK_KW: Harry Potter
-  - slot_was_set:
-    - BOOK_KW: Harry Potter
-  - action: BOOK_form
-  - action: BOOK_get_info
+

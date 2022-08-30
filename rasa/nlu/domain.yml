@@ -18,10 +18,9 @@ intents:
       - LIB_name
   - DIA-INT-find_BOOK:
       use_entities:
-      - BOOK_KW
+      - resource_type
   - out_of_scope
-  - nlu_fallback:
-      use_entities: []
+  - nlu_fallback
 entities:
   - BOOK_KW
   - LIB_name

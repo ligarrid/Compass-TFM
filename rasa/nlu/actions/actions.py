@@ -127,19 +127,15 @@ class BOOKFormAction(Action):
             "Book_form",
             tracker.slots)
 
-        print(ConversationData.controlVariable, '\n', 
-            ConversationData.previousIntent, '\n', 
-            ConversationData.entityList)
-
-
         if tracker.slots.get("resource_type") == "fondo":
-            if tracker.slots.get("BOOK_KW") is None:
+
+            if ConversationData.searchText is None:
                 dispatcher.utter_message(response="utter_BOOK_form_BOOK_KW")
-                
+                return []
                 # list of events "search for event: user" y dentro parse_data.intent.name
                 # print(reversed_events)
-            elif tracker.slots.get("BOOK_KW") is not None:
-                print(tracker.latest_message['entities'])
+            elif ConversationData.searchText is not None:
+
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
             else:
@@ -149,7 +145,7 @@ class BOOKFormAction(Action):
 
         elif tracker.slots.get("resource_type") is None and tracker.slots.get("BOOK_KW") is not None:
             tracker.slots["resource_type"] = "fondo"
-            print('2' + str(tracker.latest_message['entities']))
+
             tracker.slots.get("resource_type")
             return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
@@ -170,8 +166,8 @@ class GetBook(Action):
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
 
-        if Utils.isEntityInTracker("BOOK_KW", tracker):
-            xmlString = WorldCatAPI().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
+        if ConversationData.searchText is not None:
+            xmlString = WorldCatAPI().searchBook(ConversationData.searchText)
             print (xmlString)
 
             if xmlString is not None:
@@ -179,26 +175,33 @@ class GetBook(Action):
                 xml_message = Utils.xmlToArray(xml_message)
 
                 custom_response = domain.get("responses").get("utter_find_BOOK")[0].get("custom")
-
+                
                 # print('CUSTOM RESPONSE', custom_response)
                 domain_text = custom_response['1']['text']
+                print('domain_text ', domain_text)
                 # print('DOMAIN TEXT', domain_text)
                 domain_text = domain_text.format(xml_message)
+                print('domain_text ', domain_text)
+                
+                custom_response['1']['text'] = str(domain_text)
+                print('custom_response ', custom_response)
 
-                custom_response['1']['text'] = domain_text
-                dispatcher.utter_message(json_message = custom_response)
+                dispatcher.utter_message(json_message=custom_response)
+                
+                print('YA ESTA')
+                ConversationData.resetConversationData(ConversationData)
+
+                return [AllSlotsReset()]
 
             else:
                 dispatcher.utter_message(
                     text="La consulta al catálogo ha fallado. Por favor inténtalo en unos minutos.")
 
-        ConversationData.resetConversationData(ConversationData())
-        print(ConversationData.controlVariable, '\n',
-                ConversationData.previousIntent, '\n',
-                ConversationData.entityList)
+                ConversationData.resetConversationData(ConversationData())
 
-        return [AllSlotsReset()]
+                return [AllSlotsReset()]
 
+        return []
 
 class resetSlots(Action):
     def name(self) -> Text:
@@ -208,7 +211,6 @@ class resetSlots(Action):
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        print("hi")
 
         return [AllSlotsReset()]
 
@@ -222,14 +224,41 @@ class CheckFallbackContext(Action):
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        if ConversationData.controlVariable == 'Book_form' and ConversationData.previousIntent == "DIA-INT-find_BOOK":
-            tracker.slots["BOOK_KW"] = tracker.latest_message['text']
-            return [FollowupAction("BOOK_get_info")]
-        else:
-            template_text = domain.get("responses").get("utter_nlu_fallback")[0].get("text")
-            dispatcher.utter_message(text=template_text)
 
+        last_intent = tracker.get_intent_of_latest_message(skip_fallback_intent=False)
+        
+        if ConversationData.controlVariable == 'Book_form':
+            print('yes')
+            ConversationData.setSearchText(ConversationData, tracker.latest_message['text'])
+
+            return [FollowupAction("BOOK_form")]
+        else:
+            print('ELSE')
+            if last_intent == 'CHI-greetings':
+                template_text = domain.get("responses").get("utter_CHI-greetings")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-thankyou':
+                template_text = domain.get("responses").get("utter_CHI-thankyou")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-hate':
+                template_text = domain.get("responses").get("utter_CHI-hate")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-botIdentity':
+                template_text = domain.get("responses").get("utter_CHI-botIdentity")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-help':
+                template_text = domain.get("responses").get("utter_CHI-help")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-talkToHuman':
+                template_text = domain.get("responses").get("utter_CHI-talkToHuman")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            elif last_intent == 'CHI-stop':
+                template_text = domain.get("responses").get("utter_CHI-stop")[0].get("text")
+                dispatcher.utter_message(text=template_text)
+            else:
+
+                template_text = domain.get("responses").get("utter_nlu_fallback")[0].get("text")
+                dispatcher.utter_message(text=template_text)
 
         return []
 
