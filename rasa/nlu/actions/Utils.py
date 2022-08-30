@@ -47,15 +47,15 @@ class Utils:
                     unavailableText = "{} unavailable"
 
                     if subchildTag in infoTags:
-                        entryDict[subchildTag] = subchild.text if len(subchild.text) >= 0 else unavailableText.format(subchildTag.capitalize())
+                        entryDict[subchildTag] = subchild.text if subchild.text != None and len(subchild.text) >= 0 else unavailableText.format(subchildTag.capitalize())
 
                     elif subchildTag == 'link':
-                        entryDict[subchildTag] = subchild.attrib if len(subchild.attrib) >= 0 else unavailableText.format(subchildTag.capitalize())
+                        entryDict[subchildTag] = subchild.attrib if subchild.attrib != None and len(subchild.attrib) >= 0 else unavailableText.format(subchildTag.capitalize())
 
                     elif subchildTag == 'author':
                         for nameTag in subchild:
                             subchildNameTag = re.sub(tagReg, '', nameTag.tag)
-                            entryDict[subchildNameTag] = nameTag.text if len(nameTag.text) >= 0 else unavailableText.format(subchildNameTag.capitalize())
+                            entryDict[subchildNameTag] = nameTag.text if nameTag.text != None and len(nameTag.text) >= 0 else unavailableText.format(subchildNameTag.capitalize())
             
             if len(entryDict) > 0:
                 jsonDict = json.dumps(entryDict)

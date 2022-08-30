@@ -1,6 +1,5 @@
-Regex
 
-b'<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:oclcterms="http://purl.org/oclc/terms/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">\n 
     <title>OCLC Worldcat Search: srw.kw all "harry potter"and srw.li all "S9M" and srw.la all "spa"</title>\n 
     <id>http://worldcat.org/webservices/catalog/search/worldcat/opensearch?q=srw.kw+all+%22harry+potter%22and+srw.li+all+%22S9M%22+and+srw.la+all+%22spa%22&start=0&count=10&format=atom&wskey=UZHxZYiT35F9kDOsFEm7rR2j9HXASw8kbZjgzxigx25hOr6PHTPQ0wUANf95Hrde5tqhPYzB7D5LuIlg</id>\n 

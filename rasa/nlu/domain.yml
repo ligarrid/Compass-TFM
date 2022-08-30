@@ -22,9 +22,6 @@ intents:
   - out_of_scope
   - nlu_fallback:
       use_entities: []
-  - BOOK_data:
-      use_entities:
-      - BOOK_KW
 entities:
   - BOOK_KW
   - LIB_name
@@ -139,11 +136,6 @@ responses:
             text: |-
               {}
             payload: xml_text
-        2:
-            text: |-
-              Si no es exactamente lo que buscabas, aquí tienes el enlace a la página del catálogo, en la que podrás filtrar mejor tu búsqueda:
-              https://ucm.on.worldcat.org/v2
-            payload: plain_text
   utter_BOOK_form_BOOK_KW:
     - custom:
         0: 

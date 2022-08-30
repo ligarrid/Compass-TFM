@@ -42,11 +42,14 @@ rules:
   steps:
   - intent: CHI-startOver
   - action: utter_CHI-startOver
+  - action: ResetSlots
 
 - rule: chitchat CHI-talkToHuman
   steps:
   - intent: CHI-talkToHuman
   - action: utter_CHI-talkToHuman
 
-
-
+- rule: chitchat CHI-stop
+  steps:
+  - intent: CHI-stop
+  - action: utter_CHI-stop

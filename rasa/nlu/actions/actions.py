@@ -82,9 +82,10 @@ class GetLIBInfo(Action):
         if Utils.isEntityInTracker("LIB_name", tracker):
             lib = Ujson().getKeyWord(Utils.getValueFromEntity("LIB_name", tracker))
 
-            template_response = domain.get("responses").get("utter_ask_info_LIBR").get("custom")
+            template_response = domain.get("responses").get("utter_ask_info_LIBR")[0]
             # TODO añadir control cuando NoneType por falta de ortografia (nombre no existe en BDD) done, not tested
-            template_text = template_response[0]['text']
+            print(template_response)
+            template_text = template_response["custom"]['0']['text']
             if lib["name"] is not None:
                 template_text = template_text.format(lib["name"],
                                                      lib["open_hour"],
@@ -164,24 +165,24 @@ class GetBook(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        print(tracker.latest_message['entities'])
+        # print(tracker.latest_message['entities'])
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
 
         if Utils.isEntityInTracker("BOOK_KW", tracker):
-            xm = WorldCatAPI().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
-            xmString = str(xm, 'utf8')
-            print(xmString)
-            if xmString is not None:
-                xml_message = "{}".format(xmString)
+            xmlString = WorldCatAPI().searchBook(Utils.getValueFromEntity("BOOK_KW", tracker))
+            print (xmlString)
+
+            if xmlString is not None:
+                xml_message = "{}".format(xmlString)
                 xml_message = Utils.xmlToArray(xml_message)
 
                 custom_response = domain.get("responses").get("utter_find_BOOK")[0].get("custom")
 
-                print('CUSTOM RESPONSE', custom_response)
+                # print('CUSTOM RESPONSE', custom_response)
                 domain_text = custom_response['1']['text']
-                print('DOMAIN TEXT', domain_text)
+                # print('DOMAIN TEXT', domain_text)
                 domain_text = domain_text.format(xml_message)
 
                 custom_response['1']['text'] = domain_text
@@ -221,8 +222,13 @@ class CheckFallbackContext(Action):
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # template_text = domain.get("responses").get("utter_LIB_name_input")[0].get("text")
-        # dispatcher.utter_message(text=template_text)
+        
+        if ConversationData.controlVariable == 'Book_form' and ConversationData.previousIntent == "DIA-INT-find_BOOK":
+            tracker.slots["BOOK_KW"] = tracker.latest_message['text']
+            return [FollowupAction("BOOK_get_info")]
+        else:
+            template_text = domain.get("responses").get("utter_nlu_fallback")[0].get("text")
+            dispatcher.utter_message(text=template_text)
 
 
         return []
