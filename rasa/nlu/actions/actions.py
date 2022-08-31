@@ -98,7 +98,7 @@ class GetLIBInfo(Action):
                 dispatcher.utter_message(text="Lo siento no puedo encontrar la bibliteca que buscas")
 
             dispatcher.utter_message(text=template_text)
-            ConversationData.resetConversationData(ConversationData())
+            ConversationData.resetConversationData(ConversationData)
             print(ConversationData.controlVariable, '\n',
                   ConversationData.previousIntent, '\n',
                   ConversationData.entityList)
@@ -131,11 +131,14 @@ class BOOKFormAction(Action):
 
             if ConversationData.searchText is None:
                 dispatcher.utter_message(response="utter_BOOK_form_BOOK_KW")
+                print('controlVariable ', ConversationData.controlVariable)
+                print('searchText None', ConversationData.searchText)
                 return []
                 # list of events "search for event: user" y dentro parse_data.intent.name
                 # print(reversed_events)
             elif ConversationData.searchText is not None:
-
+                print('controlVariable ', ConversationData.controlVariable)
+                print('searchText not None ', ConversationData.searchText)
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
             else:
@@ -143,10 +146,9 @@ class BOOKFormAction(Action):
                 dispatcher.utter_message(text=template_text)
                 return []
 
-        elif tracker.slots.get("resource_type") is None and tracker.slots.get("BOOK_KW") is not None:
+        elif tracker.slots.get("resource_type") is None and ConversationData.searchText is not None:
             tracker.slots["resource_type"] = "fondo"
 
-            tracker.slots.get("resource_type")
             return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
         return []
@@ -197,7 +199,7 @@ class GetBook(Action):
                 dispatcher.utter_message(
                     text="La consulta al catálogo ha fallado. Por favor inténtalo en unos minutos.")
 
-                ConversationData.resetConversationData(ConversationData())
+                ConversationData.resetConversationData(ConversationData)
 
                 return [AllSlotsReset()]
 
@@ -230,7 +232,6 @@ class CheckFallbackContext(Action):
         if ConversationData.controlVariable == 'Book_form':
             print('yes')
             ConversationData.setSearchText(ConversationData, tracker.latest_message['text'])
-
             return [FollowupAction("BOOK_form")]
         else:
             print('ELSE')
@@ -255,8 +256,10 @@ class CheckFallbackContext(Action):
             elif last_intent == 'CHI-stop':
                 template_text = domain.get("responses").get("utter_CHI-stop")[0].get("text")
                 dispatcher.utter_message(text=template_text)
+            elif last_intent == 'DIA-INT-find_BOOK':
+                
+                return [FollowupAction("BOOK_form")]
             else:
-
                 template_text = domain.get("responses").get("utter_nlu_fallback")[0].get("text")
                 dispatcher.utter_message(text=template_text)
 
