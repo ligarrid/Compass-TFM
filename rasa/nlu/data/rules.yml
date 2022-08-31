@@ -51,3 +51,13 @@ rules:
   steps:
   - intent: CHI-stop
   - action: check_fallback_context
+
+- rule: Library information form
+  steps:
+  - intent: DIA-INT-ask_info_LIBR
+  - action: LIB_form
+
+- rule: Book query form
+  steps:
+  - intent: DIA-INT-find_BOOK
+  - action: check_fallback_context

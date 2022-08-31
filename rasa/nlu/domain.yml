@@ -22,7 +22,6 @@ intents:
   - out_of_scope
   - nlu_fallback
 entities:
-  - BOOK_KW
   - LIB_name
   - resource_type
 slots:
@@ -30,9 +29,6 @@ slots:
     type: text
     influence_conversation: false
   LIB_name:
-    type: text
-    influence_conversation: false
-  BOOK_KW:
     type: text
     influence_conversation: false
 responses:
@@ -189,9 +185,6 @@ forms:
       - CHI-talkToHuman
       - CHI-startOver
     required_slots:
-      BOOK_KW:
-        - type: from_entity
-          entity: BOOK_KW
       resource_type:
         - type: from_trigger_intent
           value: fondo

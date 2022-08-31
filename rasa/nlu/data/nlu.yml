@@ -555,11 +555,11 @@ nlu:
     - [estadística](LIB_name) información de [biblioteca](resource_type)
     - de la de [Medicina](LIB_name) necesito la info
     - los datos de la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [enfermeria](LIB_name)
-    - [facultad]{"entity": "resource_type", "value": "biblioteca"} de [psicología](LIB_name) [biblioteca](resource_type)
+    - [facultad]{"entity": "resource_type", "value": "biblioteca"} de psicología [biblioteca](resource_type)
     - de la de [químicas](LIB_name)
     - el [telefono]{"entity": "resource_type", "value": "biblioteca"} de la de [biologia](LIB_name)
     - la de [educacion](LIB_name) necesito
-    - informacion de contacto de la [biblioteca](resource_type) de [fisioterapia](BOOK_KW)
+    - informacion de contacto de la [biblioteca](resource_type) de [fisioterapia](LIB_name)
     - el [horario]{"entity": "resource_type", "value": "biblioteca"} de la [biblioteca](resource_type) de [odontologia](LIB_name)
     - informacion de [biblioteca](resource_type) [maria zambrano](LIB_name)
     - el [horario]{"entity": "resource_type", "value": "biblioteca"} de la [bilioteca](resource_type) de la [facultad]{"entity": "resource_type", "value": "biblioteca"} de [medicina](LIB_name)
@@ -599,7 +599,7 @@ nlu:
     - [bibliografía]{"entity": "resource_type", "value": "fondo"} 
     - [volúmen]{"entity": "resource_type", "value": "fondo"} de 
     - hay [ejemplares]{"entity": "resource_type", "value": "fondo"} de ?
-    - quiero un [ejemplar]{"entity": "resource_type", "value": "fondo"} de [the waste land](BOOK_KW), teneis alguno disponible?
+    - quiero un [ejemplar]{"entity": "resource_type", "value": "fondo"} de the waste land, teneis alguno disponible?
     - qué teneis de ?
     - busco algún 
     - [Libro]{"entity": "resource_type", "value": "fondo"} de 
@@ -675,4 +675,114 @@ nlu:
     - artículos
     - artículo
     - articulo
-
+- lookup: LIB_name
+  examples: |
+    - tesis
+    - doctorales
+    - tesis doctorales
+    - publicaciones académicas
+    - academicas
+    - publicaciones
+    - histórica
+    - historica
+    - foa
+    - documentación
+    - documentacion
+    - byd
+    - filosofía
+    - filosofia
+    - fsl
+    - educación
+    - educacion
+    - formacion
+    - magisterio
+    - profesorado
+    - edu
+    - bellas artes
+    - BA
+    - artes
+    - bba
+    - geografía
+    - historia
+    - ghi
+    - maria zambrano
+    - maría zambrano
+    - filología
+    - filologia
+    - filo
+    - fll
+    - psicología
+    - psicologia
+    - cps
+    - criminología
+    - criminologia
+    - derecho
+    - abogados
+    - abogacía
+    - empresariales
+    - económicas
+    - empresariales
+    - ADE
+    - economia
+    - empresa
+    - turismo
+    - comercio
+    - estadística
+    - estadísticos
+    - políticas
+    - sociología
+    - politicas
+    - politica
+    - cps
+    - trabajo social
+    - social
+    - trs
+    - ciencias de la información
+    - periodismo
+    - inf
+    - medicina
+    - med
+    - farmacia
+    - farmacéutica
+    - farmaceutica
+    - veterinaria
+    - vet
+    - odontología
+    - odontologia
+    - odo
+    - enfermería
+    - fisioterapia
+    - podología
+    - enf
+    - Óptica
+    - optica
+    - optometría
+    - optometria
+    - opt
+    - informática
+    - informatica
+    - FDI
+    - eis
+    - matemáticas
+    - matematicas
+    - mat
+    - físicas
+    - fisicas
+    - física
+    - fisica
+    - FIS
+    - geológicas
+    - geologicas
+    - geología
+    - geologia
+    - GEO
+    - biológicas
+    - biologicas
+    - biologia
+    - biología
+    - BIO
+    - químicas
+    - quimicas
+    - química
+    - quimica
+    - QUI

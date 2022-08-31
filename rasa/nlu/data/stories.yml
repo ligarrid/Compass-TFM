@@ -2,51 +2,6 @@ version: "2.0"
 
 stories:
 
-- story: interactive_story_1
-  steps:
-  - intent: DIA-INT-ask_info_LIBR
-    entities:
-    - resource_type: biblioteca
-    - LIB_name: maria zambrano
-  - slot_was_set:
-    - resource_type: biblioteca
-  - slot_was_set:
-    - LIB_name: maria zambrano
-  - action: LIB_form
-  - action: LIB_get_info
-
-
-- story: interactive_story_2
-  steps:
-  - intent: DIA-INT-ask_info_LIBR
-    entities:
-    - resource_type: biblioteca
-  - slot_was_set:
-    - resource_type: biblioteca
-  - action: LIB_form
-  - intent: DIA-INT-ask_info_LIBR
-    entities:
-    - LIB_name: quimica
-  - slot_was_set:
-    - LIB_name: quimica
-  - action: LIB_form
-  - action: LIB_get_info
-
-- story: interactive_story_3
-  steps:
-  - intent: DIA-INT-ask_info_LIBR
-    entities:
-    - resource_type: biblioteca
-  - slot_was_set:
-    - resource_type: biblioteca
-  - action: LIB_form
-  - intent: DIA-INT-ask_info_LIBR
-    entities:
-    - LIB_name: filosofia
-  - slot_was_set:
-    - LIB_name: filosofia
-  - action: LIB_get_info
-
 - story: interactive_story_4
   steps:
   - intent: DIA-INT-ask_info_LIBR
@@ -61,7 +16,6 @@ stories:
   - slot_was_set:
     - LIB_name: derecho
   - action: LIB_form
-  - action: LIB_get_info
 
 - story: interactive_story_5
   steps:
@@ -74,7 +28,6 @@ stories:
   - slot_was_set:
     - LIB_name: medicina
   - action: LIB_form
-  - action: LIB_get_info
 
 - story: interactive_story_6
   steps:
@@ -90,7 +43,6 @@ stories:
   - slot_was_set:
     - LIB_name: periodismo
   - action: LIB_form
-  - action: LIB_get_info
 
 - story: interactive_story_1
   steps:

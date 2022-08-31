@@ -39,27 +39,29 @@ class LIBFormAction(Action):
             ConversationData.entityList)
 
         if ConversationData.controlVariable == "Library_form":
-
+            print("Library_form fulfilled")
             path = Path(__file__).parent / "data/LIBnames.yaml"
             lookupLIB = open(path)
             parsed_yaml_file = yaml.load(lookupLIB, Loader=yaml.FullLoader)
 
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
             
-            if tracker.slots.get("LIB_name") is None or tracker.slots.get("LIB_name") not in LIBlist:
-                dispatcher.utter_message(response="utter_LIB_form_LIB_name")
-            else:
-
+            if tracker.slots.get("LIB_name") is not None and tracker.slots.get("LIB_name") in LIBlist:
+                print('LIB_NAME DETECTED: ', tracker.slots.get("LIB_name"))
+                ConversationData.entityList = [tracker.slots.get("LIB_name")]
                 print("detecta biblio")
                 return [FollowupAction("LIB_get_info"), AllSlotsReset()]
 
-        if tracker.slots.get("resource_type") is not None and tracker.slots.get("resource_type") != "biblioteca":
+            else:
+                dispatcher.utter_message(response="utter_LIB_form_LIB_name")
+            
+        elif tracker.slots.get("resource_type") is not None and tracker.slots.get("resource_type") != "biblioteca":
             dispatcher.utter_message(text="te refieres a una biblio?")
 
-        if tracker.slots.get("resource_type") is None:
+        elif tracker.slots.get("resource_type") is None:
             template_text = domain.get("responses").get("te refieres a una biblio?")  # TODO: create a response for no type of serach?
             dispatcher.utter_message(text=template_text)
-            return []
+            
 
         return []
 
@@ -79,8 +81,8 @@ class GetLIBInfo(Action):
 
         #print(tracker.slots)
 
-        if Utils.isEntityInTracker("LIB_name", tracker):
-            lib = Ujson().getKeyWord(Utils.getValueFromEntity("LIB_name", tracker))
+        if len(ConversationData.entityList) > 0:
+            lib = Ujson().getKeyWord(ConversationData.entityList[0])
 
             template_response = domain.get("responses").get("utter_ask_info_LIBR")[0]
             # TODO añadir control cuando NoneType por falta de ortografia (nombre no existe en BDD) done, not tested
