@@ -51,7 +51,7 @@ stories:
     - resource_type: fondo
   - slot_was_set:
     - resource_type: fondo
-  - action: check_fallback_context
+  - action: check_context
 
 - story: interactive_story_9
   steps:
@@ -60,5 +60,5 @@ stories:
     - resource_type: fondo
   - slot_was_set:
     - resource_type: fondo
-  - action: check_fallback_context
+  - action: check_context
 

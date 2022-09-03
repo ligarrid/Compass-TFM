@@ -121,6 +121,12 @@ responses:
               - Dirección: {} 
               - Teléfono: {} 
               - Correo: {}
+  utter_found_noLIB:
+    - custom:
+        0: 
+            text: |-
+              ¡Vaya! Parece que no encuentro bibliotecas de la UCM con ese nombre.
+            payload: plain_text
   utter_find_BOOK:
     - custom:
         0: 
@@ -155,7 +161,7 @@ actions:
   - LIB_get_info
   - LIB_no_info
   - ResetSlots
-  - check_fallback_context
+  - check_context
 forms:
   LIB_form:
     ignored_intents:

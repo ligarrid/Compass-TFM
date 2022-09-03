@@ -9,48 +9,48 @@ rules:
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
   steps:
   - intent: nlu_fallback
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-greetings
   steps:
   - intent: CHI-greetings
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-thankyou
   steps:
   - intent: CHI-thankyou
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-hate
   steps:
   - intent: CHI-hate
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat botIdentity
   steps:
   - intent: CHI-botIdentity
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-help
   steps:
   - intent: CHI-help
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-startOver
   steps:
   - intent: CHI-startOver
-  - action: utter_CHI-startOver
+  - action: check_context
   - action: ResetSlots
 
 - rule: chitchat CHI-talkToHuman
   steps:
   - intent: CHI-talkToHuman
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: chitchat CHI-stop
   steps:
   - intent: CHI-stop
-  - action: check_fallback_context
+  - action: check_context
 
 - rule: Library information form
   steps:
@@ -60,4 +60,4 @@ rules:
 - rule: Book query form
   steps:
   - intent: DIA-INT-find_BOOK
-  - action: check_fallback_context
+  - action: check_context

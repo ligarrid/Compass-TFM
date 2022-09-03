@@ -79,15 +79,14 @@ class GetLIBInfo(Action):
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
-        #print(tracker.slots)
 
         if len(ConversationData.entityList) > 0:
             lib = Ujson().getKeyWord(ConversationData.entityList[0])
 
-            template_response = domain.get("responses").get("utter_ask_info_LIBR")[0]
-            # TODO añadir control cuando NoneType por falta de ortografia (nombre no existe en BDD) done, not tested
-            print(template_response)
-            template_text = template_response["custom"]['0']['text']
+            custom_response = domain.get("responses").get("utter_ask_info_LIBR")[0]
+
+            print(custom_response)
+            template_text = custom_response["custom"]['0']['text']
             if lib["name"] is not None:
                 template_text = template_text.format(lib["name"],
                                                      lib["open_hour"],
@@ -95,11 +94,11 @@ class GetLIBInfo(Action):
                                                      lib["direccion"],
                                                      lib["telefono"],
                                                      lib["email"])
+                custom_response["custom"]['0']['text'] =  template_text                                    
+                dispatcher.utter_message(json_message = custom_response["custom"])
             else:
-                # TODO: añadir respuesta catch en la entrada de respuestas nlu
-                dispatcher.utter_message(text="Lo siento no puedo encontrar la bibliteca que buscas")
+                dispatcher.utter_message(json_message = CheckFallbackContext.answerBuilder(domain, last_intent='found_noLIB'))
 
-            dispatcher.utter_message(text=template_text)
             ConversationData.resetConversationData(ConversationData)
             print(ConversationData.controlVariable, '\n',
                   ConversationData.previousIntent, '\n',
@@ -118,10 +117,6 @@ class BOOKFormAction(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # if tracker.slots.get("resource_type") is None:
-        #     dispatcher.utter_message(text="te refieres a un libro?")
-        #     return []
-        # reversed_events = list(reversed(tracker.events))
 
         ConversationData.setSessionData(
             ConversationData(),
@@ -144,8 +139,7 @@ class BOOKFormAction(Action):
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
             else:
-                template_text = domain.get("responses").get("utter_fallback")["text"][0]
-                dispatcher.utter_message(text=template_text)
+                dispatcher.utter_message(json_message = CheckFallbackContext.answerBuilder(domain, last_intent='nlu_fallback'))
                 return []
 
         elif tracker.slots.get("resource_type") is None and ConversationData.searchText is not None:
@@ -180,12 +174,8 @@ class GetBook(Action):
 
                 custom_response = domain.get("responses").get("utter_find_BOOK")[0].get("custom")
                 
-                # print('CUSTOM RESPONSE', custom_response)
                 domain_text = custom_response['1']['text']
-                print('domain_text ', domain_text)
-                # print('DOMAIN TEXT', domain_text)
                 domain_text = domain_text.format(xml_message)
-                print('domain_text ', domain_text)
                 
                 custom_response['1']['text'] = str(domain_text)
                 print('custom_response ', custom_response)
@@ -222,7 +212,7 @@ class resetSlots(Action):
 
 class CheckFallbackContext(Action):
     def name(self) -> Text:
-        return "check_fallback_context"
+        return "check_context"
 
     def run(self,
             dispatcher: CollectingDispatcher,
@@ -236,49 +226,26 @@ class CheckFallbackContext(Action):
             ConversationData.setSearchText(ConversationData, tracker.latest_message['text'])
             return [FollowupAction("BOOK_form")]
         else:
-            print('ELSE')
-            if last_intent == 'CHI-greetings':
-                template_text = domain.get("responses").get("utter_CHI-greetings")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-thankyou':
-                template_text = domain.get("responses").get("utter_CHI-thankyou")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-hate':
-                template_text = domain.get("responses").get("utter_CHI-hate")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-botIdentity':
-                template_text = domain.get("responses").get("utter_CHI-botIdentity")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-help':
-                template_text = domain.get("responses").get("utter_CHI-help")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-talkToHuman':
-                template_text = domain.get("responses").get("utter_CHI-talkToHuman")[0].get("text")
-                dispatcher.utter_message(text=template_text)
-            elif last_intent == 'CHI-stop':
-                template_text = domain.get("responses").get("utter_CHI-stop")[0].get("text")
-                dispatcher.utter_message(text=template_text)
+            non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
+            if last_intent in non_query_intents:
+                print('INTENT ', last_intent)
+                dispatcher.utter_message(json_message = self.answerBuilder(domain, last_intent))
+
             elif last_intent == 'DIA-INT-find_BOOK':
-                
                 return [FollowupAction("BOOK_form")]
+
+            # else for fallback intent
             else:
-                template_text = domain.get("responses").get("utter_nlu_fallback")[0].get("text")
-                dispatcher.utter_message(text=template_text)
+                print('INTENT ', last_intent)
+                dispatcher.utter_message(json_message = self.answerBuilder(domain, last_intent))
 
         return []
 
-"""
-class NoInfoBook(Action):
-    def name(self) -> Text:
-        return "BOOK_no_info"
 
-    def run(self,
-            dispatcher: "CollectingDispatcher",
-            tracker: Tracker,
-            domain: "DomainDict",
-            ) -> List[Dict[Text, Any]]:
-        template_text = domain.get("responses").get("utter_BOOK_KW_input")[0].get("text")
-        dispatcher.utter_message(text=template_text)
+    def answerBuilder(__self, domain, intentName):
+        
+        custom_response = domain.get("responses").get("utter_" + intentName)[0].get("custom")
+        print('custom_response ', custom_response)
+        
+        return custom_response
 
-        return []
-"""
