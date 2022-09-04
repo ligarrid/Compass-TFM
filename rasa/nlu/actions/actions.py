@@ -46,17 +46,6 @@ class LIBFormAction(Action):
         
         print('INIT LIBFormAction')
 
-        # ConversationData.setSessionData(
-        #     ConversationData(),
-        #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-        #     "Library_form",
-        #     tracker.slots)
-
-        # print('INFO LIBFormAction: ConversationData ','\n',
-        #     ConversationData.controlVariable, '\n', 
-        #     ConversationData.previousIntent, '\n', 
-        #     ConversationData.entityList)
-
         singleton = SingletonClass()
 
         conversationData = singleton.getConversationsData(tracker.sender_id)
@@ -79,22 +68,26 @@ class LIBFormAction(Action):
         print('pruebasCarlos ', conversationData.getEntityList())
 
 
-        if ConversationData.controlVariable == "Library_form":
+        if conversationData.getControlVariable() == "Library_form":
             
             path = Path(__file__).parent / "data/LIBnames.yaml"
             lookupLIB = open(path)
             parsed_yaml_file = yaml.load(lookupLIB, Loader=yaml.FullLoader)
 
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
+
             
-            if tracker.slots.get("LIB_name") is not None and tracker.slots.get("LIB_name") in LIBlist:
+            if tracker.slots.get("LIB_name") is not None and tracker.slots.get("LIB_name").lower() in LIBlist:
+                print("PRUEBA_BIBLIO_NOMBRE", tracker.slots.get("LIB_name"))
                 print('INFO LIBFormAction: LIB_NAME detected ', tracker.slots.get("LIB_name"))
                 
-                ConversationData.entityList = [tracker.slots.get("LIB_name")]
+                # ConversationData.entityList = [tracker.slots.get("LIB_name")]
+                conversationData.setEntityList([tracker.slots.get("LIB_name")])
                 print('ENDED LIBFormAction: library found')
                 return [FollowupAction("LIB_get_info"), AllSlotsReset()]
 
             else:
+                print("PRUEBA_BIBLIO_NO_NOMBRE", tracker.slots.get("LIB_name"))
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='LIB_form_LIB_name'))
                 print('ENDED LIBFormAction: no library name')
                        
@@ -118,8 +111,12 @@ class GetLIBInfo(Action):
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
 
-        if len(ConversationData.entityList) > 0:
-            lib = Ujson().getKeyWord(ConversationData.entityList[0])
+        singleton = SingletonClass()
+
+        conversationData = singleton.getConversationsData(tracker.sender_id)
+
+        if len(conversationData.getEntityList()) > 0:
+            lib = Ujson().getKeyWord(conversationData.getEntityList()[0])
 
             custom_response = domain.get("responses").get("utter_ask_info_LIBR")[0].get("custom")
 
@@ -139,7 +136,8 @@ class GetLIBInfo(Action):
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='found_noLIB'))
                 print('INFO GetLIBInfo: no library result')
 
-            ConversationData.resetConversationData(ConversationData())
+            conversationData.clearConversationData()
+            # ConversationData.resetConversationData(ConversationData())
             # print(ConversationData.controlVariable, '\n',
             #       ConversationData.previousIntent, '\n',
             #       ConversationData.entityList)

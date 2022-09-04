@@ -47,6 +47,10 @@ class ConversationData:
         print("pruebasCarlos ", self.entityList)
         self.entityList.append(value["resource_type"])
         self.entityList.append(value["LIB_name"])
+    
+    def setEntityList(self, list):
+        self.entityList = []
+        self.entityList = list
 
     def setSessionData(self, currentIntent, controlVariable, entityList):
         ConversationData.previousIntent = currentIntent
@@ -59,3 +63,9 @@ class ConversationData:
         ConversationData.controlVariable = None
         ConversationData.searchText = None
         ConversationData.entityList = []
+
+    def clearConversationData(self):
+        self.previousIntent = None
+        self.controlVariable = None
+        self.searchText = None
+        self.entityList = []
