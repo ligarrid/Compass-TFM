@@ -1,23 +1,26 @@
 
 class ConversationData:
+    senderID = None
     previousIntent = None
     controlVariable = None
     entityList = None
     searchText = None
 
+    # resource_type y LIB_name
+    # value['resource_type']
 
-                #     conversationData = ConversationData(
-                #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-                #     "Library_form",
-                #     tracker.slots
-                # )
-
-    def __init__(self, previousIntent, controlVariable, entityList):
+    def __init__(self, senderID, previousIntent, controlVariable, entityList):
+        self.senderID = senderID
         self.previousIntent = previousIntent
         self.controlVariable = controlVariable
         self.searchText = None
-        self.entityList = entityList
+        self.entityList = []
+        print("NuevasPruebasCarlos", self.entityList)
+        self.entityList.append(entityList["resource_type"])
+        self.entityList.append(entityList["LIB_name"])
 
+    def getSenderID(self):
+        return self.senderID
 
     def getControlVariable(self):
         return self.controlVariable
@@ -41,7 +44,9 @@ class ConversationData:
         self.controlVariable = value
 
     def addEntityListItem(self, value):
-        self.entityList.append(value)
+        print("pruebasCarlos ", self.entityList)
+        self.entityList.append(value["resource_type"])
+        self.entityList.append(value["LIB_name"])
 
     def setSessionData(self, currentIntent, controlVariable, entityList):
         ConversationData.previousIntent = currentIntent

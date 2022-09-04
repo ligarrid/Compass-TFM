@@ -24,8 +24,12 @@ class SingletonClass(object):
             cls.instance = super(SingletonClass, cls).__new__(cls)
         return cls.instance
 
-    def getConversationsData(self):
-        return self.conversationsData
+    def getConversationsData(self, id):
+        for conversationData in self.conversationsData:
+            if conversationData.getSenderID() == id:
+                return conversationData
+
+        return None
 
     def appendConversationsData(self, data):
         self.conversationsData.append(data)
@@ -42,16 +46,38 @@ class LIBFormAction(Action):
         
         print('INIT LIBFormAction')
 
-        ConversationData.setSessionData(
-            ConversationData(),
-            tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-            "Library_form",
-            tracker.slots)
+        # ConversationData.setSessionData(
+        #     ConversationData(),
+        #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+        #     "Library_form",
+        #     tracker.slots)
 
-        print('INFO LIBFormAction: ConversationData ','\n',
-            ConversationData.controlVariable, '\n', 
-            ConversationData.previousIntent, '\n', 
-            ConversationData.entityList)
+        # print('INFO LIBFormAction: ConversationData ','\n',
+        #     ConversationData.controlVariable, '\n', 
+        #     ConversationData.previousIntent, '\n', 
+        #     ConversationData.entityList)
+
+        singleton = SingletonClass()
+
+        conversationData = singleton.getConversationsData(tracker.sender_id)
+
+        if conversationData is not None:
+            conversationData.setPreviousIntent(tracker.get_intent_of_latest_message(skip_fallback_intent=False))
+            conversationData.setControlVariable("Library_form")
+            conversationData.addEntityListItem(tracker.slots)
+        else:
+            conversationData = ConversationData(
+                tracker.sender_id,
+                tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                "Library_form",
+                tracker.slots
+            )
+            singleton.appendConversationsData(conversationData)
+
+
+        print('pruebasCarlos ', tracker.sender_id)
+        print('pruebasCarlos ', conversationData.getEntityList())
+
 
         if ConversationData.controlVariable == "Library_form":
             
@@ -140,21 +166,34 @@ class BOOKFormAction(Action):
         #     tracker.slots)
 
 
-        conversationData = ConversationData(
-            tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-            "Book_form",
-            tracker.slots
-        )
-
-        print(conversationData.getControlVariable(), '\n',
-                   conversationData.getPreviousIntent(), '\n',
-                   conversationData.getEntityList())
-                   
         singleton = SingletonClass()
 
-        a = singleton.getConversationsData()[0].getControlVariable()
+        conversationData = singleton.getConversationsData(tracker.sender_id)
 
-        print('pruebasCarlos ', a)
+        if conversationData is not None:
+            conversationData.setPreviousIntent(tracker.get_intent_of_latest_message(skip_fallback_intent=False))
+            conversationData.setControlVariable("Book_form")
+            conversationData.addEntityListItem(tracker.slots)
+        else:
+            conversationData = ConversationData(
+                tracker.sender_id,
+                tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                "Book_form",
+                tracker.slots
+            )
+            singleton.appendConversationsData(conversationData)
+
+
+        print('pruebasCarlos ', conversationData.getEntityList())
+
+        # print('pruebasCarlos ', conversationData.getControlVariable(), '\n',
+        #            conversationData.getPreviousIntent(), '\n',
+        #            conversationData.getEntityList())
+                   
+    
+
+        
+
 
 
         if tracker.slots.get("resource_type") == "fondo":
@@ -286,23 +325,33 @@ class CheckFallbackContext(Action):
                 # Aqui es cuando se inicia la conver si 'CHI-greetings' true y si primera vez
                 print('INFO check_context: non-query intent ', last_intent)
 
+
                 singleton = SingletonClass()
 
-                # ConversationData.setSessionData(
-                #     ConversationData(),
-                    # tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-                    # "Library_form",
-                    # tracker.slots)
+                conversationData = singleton.getConversationsData(tracker.sender_id)
 
-                conversationData = ConversationData(
-                    tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-                    "Library_form",
-                    tracker.slots
-                )
+                print("NuevasPruebasCarlos", tracker.slots)
 
-                print("pruebasCarlos ", conversationData.getControlVariable())
-                
-                singleton.appendConversationsData(conversationData)
+                if conversationData is not None:
+                    print("NuevasPruebasCarlos", "is not None")
+                    conversationData.setPreviousIntent(tracker.get_intent_of_latest_message(skip_fallback_intent=False))
+                    conversationData.setControlVariable("Library_form")
+                    conversationData.addEntityListItem(tracker.slots)
+                else:
+                    print("NuevasPruebasCarlos", "is None")
+                    conversationData = ConversationData(
+                        tracker.sender_id,
+                        tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                        "Library_form",
+                        tracker.slots
+                    )
+                    print("NuevasPruebasCarlos", tracker.slots)
+                    singleton.appendConversationsData(conversationData)
+
+
+                print('pruebasCarlos ', tracker.sender_id)
+                print('pruebasCarlos ', conversationData.getEntityList())
+
 
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
             
@@ -310,6 +359,10 @@ class CheckFallbackContext(Action):
             elif last_intent == 'DIA-INT-find_BOOK':
                 print('ENDED check_context: form intent ', last_intent)
                 return [FollowupAction("BOOK_form")]
+
+            elif last_intent == 'DIA-INT-ask_info_LIBR':
+                print('ENDED check_context: form intent ', last_intent)
+                return [FollowupAction("LIB_form")]
 
             # else for fallback intent
             else:
