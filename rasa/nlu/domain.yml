@@ -54,7 +54,7 @@ responses:
         0: 
             payload: plain_text
             text: |-
-              Gracias a ti. Me alegra serte de ayuda
+              ¡Gracias a ti! Me alegra serte de ayuda
   utter_CHI-hate:
     - custom:
         0: 
@@ -94,7 +94,7 @@ responses:
         0: 
             payload: plain_text
             text: |-
-              Si necesitas más ayuda puedes contactar con el servicio de atención a través de este número:
+              Si necesitas más ayuda puedes contactar con el personal de la biblioteca a través de este número:
 
               910 000 000
   utter_did_that_help:
@@ -142,7 +142,13 @@ responses:
         0: 
             payload: plain_text
             text: |-
-              Para ayudarte en tu búsqueda necesito que mes des más pistas... Dime algún término o palabra clave por los que quieras realizar tu búsqueda
+              Para ayudarte mejor necesito que escribas únicamente los términos por los que deseas hacer tu búsqueda.
+  utter_BOOK_form_CatError:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Me temo que la consulta al catálogo ha fallado. Por favor, inténtalo en unos minutos.
   utter_out_of_scope:
     - custom:
         0: 
@@ -150,8 +156,11 @@ responses:
             text: |-
               Lo siento, pero por el momento lo que me pides está fuera de mi alcance. Por favor, para ello contacta con mis compañeros de la biblioteca. ¡Seguro que estarán encantados de atender tu petición!
   utter_nlu_fallback:
-  - text: ¡Vaya! Creo que no te entiendo. ¿Podrías decírmelo con otras palabras?
-  - text: Lo siento, pero me está siendo difícil entenderte. Si necesitas ayuda, siempre puedes contactar con mis compañeros de la biblioteca. ¡Estarán encantados de atenderte!
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Lo siento, pero me está siendo difícil entenderte. Si necesitas más ayuda, siempre puedes contactar con mis compañeros de la biblioteca. ¡Estarán encantados de atenderte!
 actions:
   - BOOK_form
   - BOOK_get_info

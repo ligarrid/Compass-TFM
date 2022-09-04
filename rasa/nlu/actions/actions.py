@@ -27,6 +27,8 @@ class LIBFormAction(Action):
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        print('INIT LIBFormAction')
 
         ConversationData.setSessionData(
             ConversationData(),
@@ -34,12 +36,13 @@ class LIBFormAction(Action):
             "Library_form",
             tracker.slots)
 
-        print(ConversationData.controlVariable, '\n', 
+        print('INFO LIBFormAction: ConversationData ','\n',
+            ConversationData.controlVariable, '\n', 
             ConversationData.previousIntent, '\n', 
             ConversationData.entityList)
 
         if ConversationData.controlVariable == "Library_form":
-            print("Library_form fulfilled")
+            
             path = Path(__file__).parent / "data/LIBnames.yaml"
             lookupLIB = open(path)
             parsed_yaml_file = yaml.load(lookupLIB, Loader=yaml.FullLoader)
@@ -47,21 +50,16 @@ class LIBFormAction(Action):
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
             
             if tracker.slots.get("LIB_name") is not None and tracker.slots.get("LIB_name") in LIBlist:
-                print('LIB_NAME DETECTED: ', tracker.slots.get("LIB_name"))
+                print('INFO LIBFormAction: LIB_NAME detected ', tracker.slots.get("LIB_name"))
+                
                 ConversationData.entityList = [tracker.slots.get("LIB_name")]
-                print("detecta biblio")
+                print('ENDED LIBFormAction: library found')
                 return [FollowupAction("LIB_get_info"), AllSlotsReset()]
 
             else:
-                dispatcher.utter_message(response="utter_LIB_form_LIB_name")
-            
-        elif tracker.slots.get("resource_type") is not None and tracker.slots.get("resource_type") != "biblioteca":
-            dispatcher.utter_message(text="te refieres a una biblio?")
-
-        elif tracker.slots.get("resource_type") is None:
-            template_text = domain.get("responses").get("te refieres a una biblio?")  # TODO: create a response for no type of serach?
-            dispatcher.utter_message(text=template_text)
-            
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='LIB_form_LIB_name'))
+                print('ENDED LIBFormAction: no library name')
+                       
 
         return []
 
@@ -76,6 +74,8 @@ class GetLIBInfo(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        print('INIT GetLIBInfo')
+        
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
@@ -83,10 +83,9 @@ class GetLIBInfo(Action):
         if len(ConversationData.entityList) > 0:
             lib = Ujson().getKeyWord(ConversationData.entityList[0])
 
-            custom_response = domain.get("responses").get("utter_ask_info_LIBR")[0]
+            custom_response = domain.get("responses").get("utter_ask_info_LIBR")[0].get("custom")
 
-            print(custom_response)
-            template_text = custom_response["custom"]['0']['text']
+            template_text = custom_response['0']['text']
             if lib["name"] is not None:
                 template_text = template_text.format(lib["name"],
                                                      lib["open_hour"],
@@ -94,16 +93,20 @@ class GetLIBInfo(Action):
                                                      lib["direccion"],
                                                      lib["telefono"],
                                                      lib["email"])
-                custom_response["custom"]['0']['text'] =  template_text                                    
-                dispatcher.utter_message(json_message = custom_response["custom"])
+                custom_response['0']['text'] =  template_text                                    
+                dispatcher.utter_message(json_message = custom_response)
+                print('INFO GetLIBInfo: library info returned')
             else:
-                dispatcher.utter_message(json_message = CheckFallbackContext.answerBuilder(domain, last_intent='found_noLIB'))
+                
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='found_noLIB'))
+                print('INFO GetLIBInfo: no library result')
 
-            ConversationData.resetConversationData(ConversationData)
-            print(ConversationData.controlVariable, '\n',
-                  ConversationData.previousIntent, '\n',
-                  ConversationData.entityList)
+            ConversationData.resetConversationData(ConversationData())
+            # print(ConversationData.controlVariable, '\n',
+            #       ConversationData.previousIntent, '\n',
+            #       ConversationData.entityList)
 
+        print('ENDED GetLIBInfo')
         return [AllSlotsReset()]
 
 
@@ -117,7 +120,7 @@ class BOOKFormAction(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-
+        print('INIT BOOKFormAction')
         ConversationData.setSessionData(
             ConversationData(),
             tracker.get_intent_of_latest_message(skip_fallback_intent=False),
@@ -127,26 +130,34 @@ class BOOKFormAction(Action):
         if tracker.slots.get("resource_type") == "fondo":
 
             if ConversationData.searchText is None:
-                dispatcher.utter_message(response="utter_BOOK_form_BOOK_KW")
-                print('controlVariable ', ConversationData.controlVariable)
-                print('searchText None', ConversationData.searchText)
+                print('INFO BOOKFormAction: controlVariable ', ConversationData.controlVariable)
+                print('INFO BOOKFormAction: searchText None', ConversationData.searchText)
+                print('ENDED BOOKFormAction: no search text found')
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='BOOK_form_BOOK_KW'))
+
                 return []
-                # list of events "search for event: user" y dentro parse_data.intent.name
-                # print(reversed_events)
+
             elif ConversationData.searchText is not None:
-                print('controlVariable ', ConversationData.controlVariable)
-                print('searchText not None ', ConversationData.searchText)
+                print('INFO BOOKFormAction: controlVariable ', ConversationData.controlVariable)
+                print('INFO BOOKFormAction: searchText not None ', ConversationData.searchText)
+                print('ENDED BOOKFormAction: send search to catalogue')
+                
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
 
+            # Added as security filter, this should never happen
             else:
-                dispatcher.utter_message(json_message = CheckFallbackContext.answerBuilder(domain, last_intent='nlu_fallback'))
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='nlu_fallback'))
+                print('ENDED BOOKFormAction: fallback')
+                
                 return []
-
+        
+        # Added as security filter, this should never happen
         elif tracker.slots.get("resource_type") is None and ConversationData.searchText is not None:
             tracker.slots["resource_type"] = "fondo"
-
+            print('ENDED BOOKFormAction: forced query')
             return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
-
+        
+        print('ENDED BOOKFormAction')
         return []
 
 
@@ -159,7 +170,9 @@ class GetBook(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # print(tracker.latest_message['entities'])
+        print('INIT BOOK_get_info')
+
+        # recommended way (by Rasa) to handle special chars in user input
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
@@ -170,6 +183,7 @@ class GetBook(Action):
 
             if xmlString is not None:
                 xml_message = "{}".format(xmlString)
+                # @TODO: manejo de acentuación latina y demás chars
                 xml_message = Utils.xmlToArray(xml_message)
 
                 custom_response = domain.get("responses").get("utter_find_BOOK")[0].get("custom")
@@ -178,21 +192,20 @@ class GetBook(Action):
                 domain_text = domain_text.format(xml_message)
                 
                 custom_response['1']['text'] = str(domain_text)
-                print('custom_response ', custom_response)
+                print('INFO BOOK_get_info: custom_response ', custom_response)
 
                 dispatcher.utter_message(json_message=custom_response)
                 
-                print('YA ESTA')
                 ConversationData.resetConversationData(ConversationData)
-
+                print('ENDED BOOK_get_info: successful query')
                 return [AllSlotsReset()]
 
             else:
-                dispatcher.utter_message(
-                    text="La consulta al catálogo ha fallado. Por favor inténtalo en unos minutos.")
-
+                
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='BOOK_form_CatError'))
                 ConversationData.resetConversationData(ConversationData)
 
+                print('ENDED BOOK_get_info: no query to make')
                 return [AllSlotsReset()]
 
         return []
@@ -206,6 +219,9 @@ class resetSlots(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        print('INIT ResetSlots')
+        ConversationData.resetConversationData(ConversationData())
+        print('ENDED ResetSlots')
         return [AllSlotsReset()]
 
 
@@ -219,33 +235,37 @@ class CheckFallbackContext(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        print('INIT check_context')
         last_intent = tracker.get_intent_of_latest_message(skip_fallback_intent=False)
         
+        # Segunda vez que entramos a formulario de consulta de libros
         if ConversationData.controlVariable == 'Book_form':
-            print('yes')
+            print('INFO check_context: Book_form parameter detected')
+
             ConversationData.setSearchText(ConversationData, tracker.latest_message['text'])
+            print('ENDED check_context')
             return [FollowupAction("BOOK_form")]
         else:
+            print('INFO check_context: Book_form parameter NOT detected')
+
             non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
             if last_intent in non_query_intents:
-                print('INTENT ', last_intent)
-                dispatcher.utter_message(json_message = self.answerBuilder(domain, last_intent))
-
+                print('INFO check_context: non-query intent ', last_intent)
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
+            
+            # Primera vez que entramos a formulario de consulta de libros
             elif last_intent == 'DIA-INT-find_BOOK':
+                print('ENDED check_context: form intent ', last_intent)
                 return [FollowupAction("BOOK_form")]
 
             # else for fallback intent
             else:
-                print('INTENT ', last_intent)
-                dispatcher.utter_message(json_message = self.answerBuilder(domain, last_intent))
+                print('INFO check_context: INTENT ', last_intent)
+                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
 
+        print('ENDED check_context')
         return []
 
 
-    def answerBuilder(__self, domain, intentName):
-        
-        custom_response = domain.get("responses").get("utter_" + intentName)[0].get("custom")
-        print('custom_response ', custom_response)
-        
-        return custom_response
+    
 
