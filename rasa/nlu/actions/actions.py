@@ -308,66 +308,51 @@ class CheckFallbackContext(Action):
         last_intent = tracker.get_intent_of_latest_message(skip_fallback_intent=False)
 
         print(tracker.sender_id)
-        
-        # Segunda vez que entramos a formulario de consulta de libros
-        if ConversationData.controlVariable == 'Book_form':
-            print('INFO check_context: Book_form parameter detected')
 
-            ConversationData.setSearchText(ConversationData, tracker.latest_message['text'])
-            print('ENDED check_context')
-            return [FollowupAction("BOOK_form")]
+        singleton = SingletonClass()
+
+        conversationData = singleton.getConversationsData(tracker.sender_id)
+
+        if conversationData is None: ## Aqui entra cuando no tienes conversacion guardada
+            print("pruebasCarlos", "conversationData is None")
+            conversationData = ConversationData(
+                tracker.sender_id,
+                tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                None,
+                tracker.slots
+            )
+            singleton.appendConversationsData(conversationData)
+            dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
+            return []
         else:
-            print('INFO check_context: Book_form parameter NOT detected')
-
-            non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
-            if last_intent in non_query_intents:
-
-                # Aqui es cuando se inicia la conver si 'CHI-greetings' true y si primera vez
-                print('INFO check_context: non-query intent ', last_intent)
-
-
-                singleton = SingletonClass()
-
-                conversationData = singleton.getConversationsData(tracker.sender_id)
-
-                print("NuevasPruebasCarlos", tracker.slots)
-
-                if conversationData is not None:
-                    print("NuevasPruebasCarlos", "is not None")
-                    conversationData.setPreviousIntent(tracker.get_intent_of_latest_message(skip_fallback_intent=False))
-                    conversationData.setControlVariable("Library_form")
-                    conversationData.addEntityListItem(tracker.slots)
-                else:
-                    print("NuevasPruebasCarlos", "is None")
-                    conversationData = ConversationData(
-                        tracker.sender_id,
-                        tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-                        "Library_form",
-                        tracker.slots
-                    )
-                    print("NuevasPruebasCarlos", tracker.slots)
-                    singleton.appendConversationsData(conversationData)
-
-
-                print('pruebasCarlos ', tracker.sender_id)
-                print('pruebasCarlos ', conversationData.getEntityList())
-
-
-                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
-            
-            # Primera vez que entramos a formulario de consulta de libros
-            elif last_intent == 'DIA-INT-find_BOOK':
-                print('ENDED check_context: form intent ', last_intent)
+            # Segunda vez que entramos a formulario de consulta de libros
+            if conversationData.getControlVariable() == "Book_form":
+                print("pruebasCarlos", 'INFO check_context: Book_form parameter detected')
+                conversationData.setSearchText(tracker.latest_message['text'])
+                print("pruebasCarlos", 'ENDED check_context')
                 return [FollowupAction("BOOK_form")]
-
-            elif last_intent == 'DIA-INT-ask_info_LIBR':
-                print('ENDED check_context: form intent ', last_intent)
-                return [FollowupAction("LIB_form")]
-
-            # else for fallback intent
             else:
-                print('INFO check_context: INTENT ', last_intent)
-                dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
+                print('INFO check_context: Book_form parameter NOT detected')
+
+                non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
+                if last_intent in non_query_intents:
+
+                    print('INFO check_context: non-query intent ', last_intent)
+                    dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
+                
+                # Primera vez que entramos a formulario de consulta de libros
+                elif last_intent == 'DIA-INT-find_BOOK':
+                    print('ENDED check_context: form intent ', last_intent)
+                    return [FollowupAction("BOOK_form")]
+
+                elif last_intent == 'DIA-INT-ask_info_LIBR':
+                    print('ENDED check_context: form intent ', last_intent)
+                    return [FollowupAction("LIB_form")]
+
+                # else for fallback intent
+                else:
+                    print('INFO check_context: INTENT ', last_intent)
+                    dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
 
         print('ENDED check_context')
         return []

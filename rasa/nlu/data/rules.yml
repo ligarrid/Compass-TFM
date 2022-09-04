@@ -55,7 +55,7 @@ rules:
 - rule: Library information form
   steps:
   - intent: DIA-INT-ask_info_LIBR
-  - action: LIB_form
+  - action: check_context
 
 - rule: Book query form
   steps:

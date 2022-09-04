@@ -9,13 +9,13 @@ stories:
     - resource_type: biblioteca
   - slot_was_set:
     - resource_type: biblioteca
-  - action: LIB_form
+  - action: check_context
   - intent: DIA-INT-ask_info_LIBR
     entities:
     - LIB_name: derecho
   - slot_was_set:
     - LIB_name: derecho
-  - action: LIB_form
+  - action: check_context
 
 - story: interactive_story_5
   steps:
@@ -27,7 +27,7 @@ stories:
     - resource_type: biblioteca
   - slot_was_set:
     - LIB_name: medicina
-  - action: LIB_form
+  - action: check_context
 
 - story: interactive_story_6
   steps:
@@ -36,13 +36,13 @@ stories:
     - resource_type: biblioteca
   - slot_was_set:
     - resource_type: biblioteca
-  - action: LIB_form
+  - action: check_context
   - intent: DIA-INT-ask_info_LIBR
     entities:
     - LIB_name: periodismo
   - slot_was_set:
     - LIB_name: periodismo
-  - action: LIB_form
+  - action: check_context
 
 - story: interactive_story_1
   steps:
