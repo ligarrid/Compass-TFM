@@ -17,6 +17,18 @@ from .ConversationData import ConversationData
 from pathlib import Path
 
 
+class SingletonClass(object):
+    conversationsData = []
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(SingletonClass, cls).__new__(cls)
+        return cls.instance
+
+    def getConversationsData(self):
+        return self.conversationsData
+
+    def appendConversationsData(self, data):
+        self.conversationsData.append(data)
 
 class LIBFormAction(Action):
 
@@ -121,11 +133,29 @@ class BOOKFormAction(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         print('INIT BOOKFormAction')
-        ConversationData.setSessionData(
-            ConversationData(),
+        # ConversationData.setSessionData(
+        #     ConversationData(),
+        #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+        #     "Book_form",
+        #     tracker.slots)
+
+
+        conversationData = ConversationData(
             tracker.get_intent_of_latest_message(skip_fallback_intent=False),
             "Book_form",
-            tracker.slots)
+            tracker.slots
+        )
+
+        print(conversationData.getControlVariable(), '\n',
+                   conversationData.getPreviousIntent(), '\n',
+                   conversationData.getEntityList())
+                   
+        singleton = SingletonClass()
+
+        a = singleton.getConversationsData()[0].getControlVariable()
+
+        print('pruebasCarlos ', a)
+
 
         if tracker.slots.get("resource_type") == "fondo":
 
@@ -237,6 +267,8 @@ class CheckFallbackContext(Action):
 
         print('INIT check_context')
         last_intent = tracker.get_intent_of_latest_message(skip_fallback_intent=False)
+
+        print(tracker.sender_id)
         
         # Segunda vez que entramos a formulario de consulta de libros
         if ConversationData.controlVariable == 'Book_form':
@@ -250,7 +282,28 @@ class CheckFallbackContext(Action):
 
             non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
             if last_intent in non_query_intents:
+
+                # Aqui es cuando se inicia la conver si 'CHI-greetings' true y si primera vez
                 print('INFO check_context: non-query intent ', last_intent)
+
+                singleton = SingletonClass()
+
+                # ConversationData.setSessionData(
+                #     ConversationData(),
+                    # tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                    # "Library_form",
+                    # tracker.slots)
+
+                conversationData = ConversationData(
+                    tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                    "Library_form",
+                    tracker.slots
+                )
+
+                print("pruebasCarlos ", conversationData.getControlVariable())
+                
+                singleton.appendConversationsData(conversationData)
+
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
             
             # Primera vez que entramos a formulario de consulta de libros

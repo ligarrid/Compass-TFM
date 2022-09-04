@@ -1,16 +1,35 @@
 
-
 class ConversationData:
     previousIntent = None
     controlVariable = None
-    entityList = []
+    entityList = None
     searchText = None
 
-    def __init__(self):
-        self.previousIntent = None
-        self.controlVariable = None
+
+                #     conversationData = ConversationData(
+                #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
+                #     "Library_form",
+                #     tracker.slots
+                # )
+
+    def __init__(self, previousIntent, controlVariable, entityList):
+        self.previousIntent = previousIntent
+        self.controlVariable = controlVariable
         self.searchText = None
-        self.entityList = []
+        self.entityList = entityList
+
+
+    def getControlVariable(self):
+        return self.controlVariable
+
+    def getPreviousIntent(self):
+        return self.previousIntent
+    
+    def getSearchText(self):
+        return self.searchText
+
+    def getEntityList(self):
+        return self.entityList
 
     def setSearchText(self, value):
         self.searchText = value
