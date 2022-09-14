@@ -1,0 +1,12 @@
+
+{
+  "name": "app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "exceljs": "^4.3.0"
+  }
+}
