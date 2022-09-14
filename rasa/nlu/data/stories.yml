@@ -1,0 +1,64 @@
+version: "2.0"
+
+stories:
+
+- story: interactive_story_4
+  steps:
+  - intent: DIA-INT-ask_info_LIBR
+    entities:
+    - resource_type: biblioteca
+  - slot_was_set:
+    - resource_type: biblioteca
+  - action: check_context
+  - intent: DIA-INT-ask_info_LIBR
+    entities:
+    - LIB_name: derecho
+  - slot_was_set:
+    - LIB_name: derecho
+  - action: check_context
+
+- story: interactive_story_5
+  steps:
+  - intent: DIA-INT-ask_info_LIBR
+    entities:
+    - resource_type: biblioteca
+    - LIB_name: medicina
+  - slot_was_set:
+    - resource_type: biblioteca
+  - slot_was_set:
+    - LIB_name: medicina
+  - action: check_context
+
+- story: interactive_story_6
+  steps:
+  - intent: DIA-INT-ask_info_LIBR
+    entities:
+    - resource_type: biblioteca
+  - slot_was_set:
+    - resource_type: biblioteca
+  - action: check_context
+  - intent: DIA-INT-ask_info_LIBR
+    entities:
+    - LIB_name: periodismo
+  - slot_was_set:
+    - LIB_name: periodismo
+  - action: check_context
+
+- story: interactive_story_1
+  steps:
+  - intent: DIA-INT-find_BOOK
+    entities:
+    - resource_type: fondo
+  - slot_was_set:
+    - resource_type: fondo
+  - action: check_context
+
+- story: interactive_story_9
+  steps:
+  - intent: DIA-INT-find_BOOK
+    entities:
+    - resource_type: fondo
+  - slot_was_set:
+    - resource_type: fondo
+  - action: check_context
+

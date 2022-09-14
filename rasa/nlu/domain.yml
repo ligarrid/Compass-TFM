@@ -1,0 +1,207 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+  - CHI-greetings
+  - CHI-stop
+  - CHI-affirmative
+  - CHI-negative
+  - CHI-thankyou
+  - CHI-hate
+  - CHI-botIdentity
+  - CHI-help
+  - CHI-startOver
+  - CHI-talkToHuman
+  - DIA-INT-ask_info_LIBR:
+      use_entities:
+      - LIB_name
+  - DIA-INT-find_BOOK:
+      use_entities:
+      - resource_type
+  - out_of_scope
+  - nlu_fallback
+entities:
+  - LIB_name
+  - resource_type
+slots:
+  resource_type:
+    type: text
+    influence_conversation: false
+  LIB_name:
+    type: text
+    influence_conversation: false
+responses:
+  utter_CHI-greetings:
+    - custom:
+        0: 
+            text: |-
+              ¡Hola! Soy Compass, el asistente de la Biblioteca UCM. Por el momento, puedo ayudarte con alguno estos temas:
+            payload: plain_text
+        1: 
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
+            payload: plain_text
+  utter_CHI-stop:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Vale, ¡vuelve cuando quieras!
+  utter_CHI-thankyou:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              ¡Gracias a ti! Me alegra serte de ayuda
+  utter_CHI-hate:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Siento oír eso. Intento mejorar día a día
+  utter_CHI-botIdentity:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Soy Compass, un asistente diseñado para ayudarte en tus consultas sobre información y recursos de la biblioteca.
+  utter_CHI-help:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Ahora mismo puedo ayudarte con los siguientes temas:
+        1: 
+            payload: plain_text
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
+  utter_CHI-startOver:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Vale, volvemos a empezar. ¿Qué necesitas?:
+        1: 
+            payload: plain_text
+            text: |-
+              - Información de bibliotecas
+              - Consultar títulos del catálogo
+  utter_CHI-talkToHuman:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Si necesitas más ayuda puedes contactar con el personal de la biblioteca a través de este número:
+
+              910 000 000
+  utter_did_that_help:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Si necesitas más información siempre puedes dirigirte al directorio de bibliotecas a través de este enlace:
+
+              https://biblioteca.ucm.es/bibliotecasyhorarios
+  utter_LIB_form_LIB_name:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+                Vale. ¿Podrías decirme el nombre de la biblioteca sobre la que quieres buscar información?
+  utter_ask_info_LIBR:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Aquí tienes toda la información referente a la {}:
+              - Horario: {} a {} 
+              - Dirección: {} 
+              - Teléfono: {} 
+              - Correo: {}
+  utter_found_noLIB:
+    - custom:
+        0: 
+            text: |-
+              ¡Vaya! Parece que no encuentro bibliotecas de la UCM con ese nombre.
+            payload: plain_text
+  utter_find_BOOK:
+    - custom:
+        0: 
+            text: |-
+              Estos son los resultados más relevantes alojados en el catálogo: 
+            payload: plain_text
+        1: 
+            text: |-
+              {}
+            payload: xml_text
+  utter_BOOK_form_BOOK_KW:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Para ayudarte mejor, necesito que escribas únicamente los términos por los que deseas hacer tu búsqueda.
+  utter_BOOK_form_CatError:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Me temo que la consulta al catálogo ha fallado. Por favor, inténtalo en unos minutos.
+  utter_out_of_scope:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Lo siento, pero por el momento lo que me pides está fuera de mi alcance. Por favor, para ello contacta con mis compañeros de la biblioteca. ¡Seguro que estarán encantados de atender tu petición!
+  utter_nlu_fallback:
+    - custom:
+        0: 
+            payload: plain_text
+            text: |-
+              Lo siento, pero me está siendo difícil entenderte. Si necesitas más ayuda, siempre puedes contactar con mis compañeros de la biblioteca. ¡Estarán encantados de atenderte!
+actions:
+  - BOOK_form
+  - BOOK_get_info
+  - BOOK_no_info
+  - BOOK_dispatcher
+  - LIB_form
+  - LIB_get_info
+  - LIB_no_info
+  - ResetSlots
+  - check_context
+forms:
+  LIB_form:
+    ignored_intents:
+      - CHI-greetings
+      - CHI-thankyou
+      - CHI-hate
+      - CHI-botIdentity
+      - CHI-help
+      - CHI-talkToHuman
+      - CHI-startOver
+    required_slots:
+      LIB_name:
+      - type: from_entity
+        entity: LIB_name
+        intent: DIA-INT-ask_info_LIBR
+      resource_type:
+      - type: from_trigger_intent
+        value: biblioteca
+        intent: DIA-INT-ask_info_LIBR
+  BOOK_form:
+    ignored_intents:
+      - CHI-greetings
+      - CHI-thankyou
+      - CHI-hate
+      - CHI-botIdentity
+      - CHI-help
+      - CHI-talkToHuman
+      - CHI-startOver
+    required_slots:
+      resource_type:
+        - type: from_trigger_intent
+          value: fondo
+          intent: DIA-INT-find_BOOK
+
