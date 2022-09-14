@@ -21,12 +21,10 @@ class WorldCatAPI:
         url = self.getURL(keyword)
 
         try:
-
             payload={}
             headers = {}
 
             response = requests.request("GET", url, headers=headers, data=payload)
-
             return response.text
 
         except urllib.error.HTTPError as e:

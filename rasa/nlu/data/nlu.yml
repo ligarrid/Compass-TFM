@@ -530,7 +530,7 @@ nlu:
     - datos de una [biblio]{"entity": "resource_type", "value": "biblioteca"}
     - dato de [biblio]{"entity": "resource_type", "value": "biblioteca"}
     - [bibliotecas]{"entity": "resource_type", "value": "biblioteca"}
-    - info de [biblios]{"entity": "resource_type", "value": "biblioteca"}
+
     - la [biblio]{"entity": "resource_type", "value": "biblioteca"}
     - información de la [biblioteca](resource_type)
     - Cierra o esta abierta las 24 horas?
@@ -550,11 +550,14 @@ nlu:
     - [biblio]{"entity": "resource_type", "value": "biblioteca"} de [filosofía](LIB_name)
     - la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [ciencias](LIB_name)
     - info de la [biblioteca](resource_type) de la [Facultad]{"entity": "resource_type", "value": "biblioteca"} de [Educación](LIB_name)
+
+    - info de [biblios]{"entity": "resource_type", "value": "biblioteca"}
     - [biblioteca](resource_type) de [informática](LIB_name) información
     - [biblio]{"entity": "resource_type", "value": "biblioteca"} de [bellas artes](LIB_name)
     - [estadística](LIB_name) información de [biblioteca](resource_type)
     - de la de [Medicina](LIB_name) necesito la info
     - los datos de la [biblio]{"entity": "resource_type", "value": "biblioteca"} de [enfermeria](LIB_name)
+
     - [facultad]{"entity": "resource_type", "value": "biblioteca"} de psicología [biblioteca](resource_type)
     - de la de [químicas](LIB_name)
     - el [telefono]{"entity": "resource_type", "value": "biblioteca"} de la de [biologia](LIB_name)
@@ -606,7 +609,7 @@ nlu:
     - Busco un [libro]{"entity": "resource_type", "value": "fondo"} de 
     - Quiero una [obra]{"entity": "resource_type", "value": "fondo"} de  para mi tfg
     - buscar [libro]{"entity": "resource_type", "value": "fondo"}
-    - necesito encontrar un [libro]{"entity": "resource_type", "value": "fondo"}
+    - encontrar un [libro]{"entity": "resource_type", "value": "fondo"}
     - ayudame a encontrar un [título]{"entity": "resource_type", "value": "fondo"}
     - necesito un [volúmen]{"entity": "resource_type", "value": "fondo"} en concreto
     - puedo buscar [libros]{"entity": "resource_type", "value": "fondo"} por aquí?
