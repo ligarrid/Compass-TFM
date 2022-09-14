@@ -142,7 +142,7 @@ responses:
         0: 
             payload: plain_text
             text: |-
-              Para ayudarte mejor necesito que escribas únicamente los términos por los que deseas hacer tu búsqueda.
+              Para ayudarte mejor, necesito que escribas únicamente los términos por los que deseas hacer tu búsqueda.
   utter_BOOK_form_CatError:
     - custom:
         0: 

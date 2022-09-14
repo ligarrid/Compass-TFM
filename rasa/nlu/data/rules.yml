@@ -16,6 +16,16 @@ rules:
   - intent: CHI-greetings
   - action: check_context
 
+- rule: chitchat CHI-affirmative
+  steps:
+  - intent: CHI-affirmative
+  - action: check_context
+
+- rule: chitchat CHI-negative
+  steps:
+  - intent: CHI-negative
+  - action: check_context
+
 - rule: chitchat CHI-thankyou
   steps:
   - intent: CHI-thankyou

@@ -9,7 +9,7 @@ from typing import Any, Text, Dict, List
 import yaml
 from rasa_sdk import Action, Tracker, events
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet, SessionStarted, ActionExecuted, EventType, FollowupAction, AllSlotsReset
+from rasa_sdk.events import FollowupAction, AllSlotsReset
 from .UtilitiesJSON import UtilitiesJSON as Ujson
 from .Utils import Utils
 from .InteractorWorldCat import WorldCatAPI
@@ -34,6 +34,7 @@ class SingletonClass(object):
     def appendConversationsData(self, data):
         self.conversationsData.append(data)
 
+
 class LIBFormAction(Action):
 
     def name(self) -> Text:
@@ -47,7 +48,6 @@ class LIBFormAction(Action):
         print('INIT LIBFormAction')
 
         singleton = SingletonClass()
-
         conversationData = singleton.getConversationsData(tracker.sender_id)
 
         if conversationData is not None:
@@ -64,10 +64,6 @@ class LIBFormAction(Action):
             singleton.appendConversationsData(conversationData)
 
 
-        print('pruebasCarlos ', tracker.sender_id)
-        print('pruebasCarlos ', conversationData.getEntityList())
-
-
         if conversationData.getControlVariable() == "Library_form":
             
             path = Path(__file__).parent / "data/LIBnames.yaml"
@@ -76,18 +72,19 @@ class LIBFormAction(Action):
 
             LIBlist = parsed_yaml_file["nlu"][0]["examples"].split("\n- ")
 
-            
+            conversationData.setEntityList([tracker.slots.get("LIB_name")])
+
             if tracker.slots.get("LIB_name") is not None and tracker.slots.get("LIB_name").lower() in LIBlist:
-                print("PRUEBA_BIBLIO_NOMBRE", tracker.slots.get("LIB_name"))
+
                 print('INFO LIBFormAction: LIB_NAME detected ', tracker.slots.get("LIB_name"))
                 
-                # ConversationData.entityList = [tracker.slots.get("LIB_name")]
-                conversationData.setEntityList([tracker.slots.get("LIB_name")])
+                # conversationData.setEntityList([tracker.slots.get("LIB_name")])
+                print("getEntityList(): ", conversationData.getEntityList())
                 print('ENDED LIBFormAction: library found')
                 return [FollowupAction("LIB_get_info"), AllSlotsReset()]
 
             else:
-                print("PRUEBA_BIBLIO_NO_NOMBRE", tracker.slots.get("LIB_name"))
+
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='LIB_form_LIB_name'))
                 print('ENDED LIBFormAction: no library name')
                        
@@ -112,11 +109,12 @@ class GetLIBInfo(Action):
 
 
         singleton = SingletonClass()
-
         conversationData = singleton.getConversationsData(tracker.sender_id)
 
         if len(conversationData.getEntityList()) > 0:
             lib = Ujson().getKeyWord(conversationData.getEntityList()[0])
+            print("getEntityList(): ", conversationData.getEntityList())
+            print("LIB: ", lib)
 
             custom_response = domain.get("responses").get("utter_ask_info_LIBR")[0].get("custom")
 
@@ -137,10 +135,6 @@ class GetLIBInfo(Action):
                 print('INFO GetLIBInfo: no library result')
 
             conversationData.clearConversationData()
-            # ConversationData.resetConversationData(ConversationData())
-            # print(ConversationData.controlVariable, '\n',
-            #       ConversationData.previousIntent, '\n',
-            #       ConversationData.entityList)
 
         print('ENDED GetLIBInfo')
         return [AllSlotsReset()]
@@ -157,15 +151,8 @@ class BOOKFormAction(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         print('INIT BOOKFormAction')
-        # ConversationData.setSessionData(
-        #     ConversationData(),
-        #     tracker.get_intent_of_latest_message(skip_fallback_intent=False),
-        #     "Book_form",
-        #     tracker.slots)
-
 
         singleton = SingletonClass()
-
         conversationData = singleton.getConversationsData(tracker.sender_id)
 
         if conversationData is not None:
@@ -181,32 +168,19 @@ class BOOKFormAction(Action):
             )
             singleton.appendConversationsData(conversationData)
 
-
-        print('pruebasCarlos ', conversationData.getEntityList())
-
-        # print('pruebasCarlos ', conversationData.getControlVariable(), '\n',
-        #            conversationData.getPreviousIntent(), '\n',
-        #            conversationData.getEntityList())
-                   
-    
-
-        
-
-
-
         if tracker.slots.get("resource_type") == "fondo":
 
-            if ConversationData.searchText is None:
-                print('INFO BOOKFormAction: controlVariable ', ConversationData.controlVariable)
-                print('INFO BOOKFormAction: searchText None', ConversationData.searchText)
+            if conversationData.getSearchText() is None:
+                print('INFO BOOKFormAction: controlVariable ', conversationData.getControlVariable())
+                print('INFO BOOKFormAction: searchText None', conversationData.getSearchText())
                 print('ENDED BOOKFormAction: no search text found')
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='BOOK_form_BOOK_KW'))
 
                 return []
 
-            elif ConversationData.searchText is not None:
-                print('INFO BOOKFormAction: controlVariable ', ConversationData.controlVariable)
-                print('INFO BOOKFormAction: searchText not None ', ConversationData.searchText)
+            elif conversationData.getSearchText() is not None:
+                print('INFO BOOKFormAction: controlVariable ', conversationData.getControlVariable())
+                print('INFO BOOKFormAction: searchText not None ', conversationData.getSearchText())
                 print('ENDED BOOKFormAction: send search to catalogue')
                 
                 return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
@@ -219,7 +193,7 @@ class BOOKFormAction(Action):
                 return []
         
         # Added as security filter, this should never happen
-        elif tracker.slots.get("resource_type") is None and ConversationData.searchText is not None:
+        elif tracker.slots.get("resource_type") is None and conversationData.getSearchText() is not None:
             tracker.slots["resource_type"] = "fondo"
             print('ENDED BOOKFormAction: forced query')
             return [FollowupAction("BOOK_get_info"), AllSlotsReset()]
@@ -243,9 +217,11 @@ class GetBook(Action):
         tracker.latest_message['text'] = tracker.latest_message['text'].translate(
             {ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
 
+        singleton = SingletonClass()
+        conversationData = singleton.getConversationsData(tracker.sender_id)
 
-        if ConversationData.searchText is not None:
-            xmlString = WorldCatAPI().searchBook(ConversationData.searchText)
+        if conversationData.getSearchText() is not None:
+            xmlString = WorldCatAPI().searchBook(conversationData.getSearchText())
             print (xmlString)
 
             if xmlString is not None:
@@ -262,15 +238,15 @@ class GetBook(Action):
                 print('INFO BOOK_get_info: custom_response ', custom_response)
 
                 dispatcher.utter_message(json_message=custom_response)
-                
-                ConversationData.resetConversationData(ConversationData)
+                conversationData.clearConversationData()
+
                 print('ENDED BOOK_get_info: successful query')
                 return [AllSlotsReset()]
 
             else:
                 
                 dispatcher.utter_message(json_message = Utils.answerBuilder(domain, intentName='BOOK_form_CatError'))
-                ConversationData.resetConversationData(ConversationData)
+                conversationData.clearConversationData()
 
                 print('ENDED BOOK_get_info: no query to make')
                 return [AllSlotsReset()]
@@ -287,7 +263,11 @@ class resetSlots(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         print('INIT ResetSlots')
-        ConversationData.resetConversationData(ConversationData())
+
+        singleton = SingletonClass()
+        conversationData = singleton.getConversationsData(tracker.sender_id)
+
+        conversationData.clearConversationData()
         print('ENDED ResetSlots')
         return [AllSlotsReset()]
 
@@ -308,11 +288,10 @@ class CheckFallbackContext(Action):
         print(tracker.sender_id)
 
         singleton = SingletonClass()
-
         conversationData = singleton.getConversationsData(tracker.sender_id)
+        
 
         if conversationData is None: ## Aqui entra cuando no tienes conversacion guardada
-            print("pruebasCarlos", "conversationData is None")
             conversationData = ConversationData(
                 tracker.sender_id,
                 tracker.get_intent_of_latest_message(skip_fallback_intent=False),
@@ -323,6 +302,7 @@ class CheckFallbackContext(Action):
             dispatcher.utter_message(json_message = Utils.answerBuilder(domain, last_intent))
             return []
         else:
+            print("CONTROL VAR: ", conversationData.getControlVariable())
             # Segunda vez que entramos a formulario de consulta de libros
             if conversationData.getControlVariable() == "Book_form":
                 print("pruebasCarlos", 'INFO check_context: Book_form parameter detected')
@@ -332,7 +312,7 @@ class CheckFallbackContext(Action):
             else:
                 print('INFO check_context: Book_form parameter NOT detected')
 
-                non_query_intents = ['CHI-greetings', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
+                non_query_intents = ['CHI-greetings', 'CHI-negative', 'CHI-affirmative', 'CHI-thankyou', 'CHI-hate', 'CHI-startOver', 'CHI-botIdentity', 'CHI-help', 'CHI-talkToHuman', 'CHI-stop']
                 if last_intent in non_query_intents:
 
                     print('INFO check_context: non-query intent ', last_intent)

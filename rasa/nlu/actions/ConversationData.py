@@ -15,9 +15,10 @@ class ConversationData:
         self.controlVariable = controlVariable
         self.searchText = None
         self.entityList = []
-        print("NuevasPruebasCarlos", self.entityList)
-        self.entityList.append(entityList["resource_type"])
+        
         self.entityList.append(entityList["LIB_name"])
+        self.entityList.append(entityList["resource_type"])
+        
 
     def getSenderID(self):
         return self.senderID
@@ -44,7 +45,7 @@ class ConversationData:
         self.controlVariable = value
 
     def addEntityListItem(self, value):
-        print("pruebasCarlos ", self.entityList)
+
         self.entityList.append(value["resource_type"])
         self.entityList.append(value["LIB_name"])
     
@@ -53,16 +54,18 @@ class ConversationData:
         self.entityList = list
 
     def setSessionData(self, currentIntent, controlVariable, entityList):
-        ConversationData.previousIntent = currentIntent
-        ConversationData.controlVariable = controlVariable
-        for entity in entityList:
-            ConversationData.entityList.append(entityList[entity])
+        print("fff")
+        # ConversationData.previousIntent = currentIntent
+        # ConversationData.controlVariable = controlVariable
+        # for entity in entityList:
+        #     ConversationData.entityList.append(entityList[entity])
 
     def resetConversationData(self):
-        ConversationData.previousIntent = None
-        ConversationData.controlVariable = None
-        ConversationData.searchText = None
-        ConversationData.entityList = []
+        print("fff")
+        # ConversationData.previousIntent = None
+        # ConversationData.controlVariable = None
+        # ConversationData.searchText = None
+        # ConversationData.entityList = []
 
     def clearConversationData(self):
         self.previousIntent = None

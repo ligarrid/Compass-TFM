@@ -1,6 +1,6 @@
 version: "2.0"
 nlu:
-  - lookup: LIB_name
+  - lookup: LIB_names
     examples: |
       - tesis
       - doctorales
@@ -30,6 +30,9 @@ nlu:
       - geografía
       - historia
       - ghi
+      - maria zambrano
+      - maría zambrano
+      - maría
       - maria
       - zambrano
       - filología
@@ -63,6 +66,7 @@ nlu:
       - social
       - trs
       - ciencias de la información
+      - ciencias
       - periodismo
       - inf
       - medicina
